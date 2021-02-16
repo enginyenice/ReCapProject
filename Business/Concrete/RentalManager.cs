@@ -4,6 +4,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -19,15 +20,22 @@ namespace Business.Concrete
 
         public Result Add(Rental entity)
         {
-            var isDeliveryControl = IsDelivery(entity.CarId);
-            if (isDeliveryControl.Success)
+            try
             {
-                _rentalDal.Add(entity);
-                return new SuccessResult(Messages.AddRentalMessage);
+                var isDeliveryControl = IsDelivery(entity.CarId);
+                if (isDeliveryControl.Success)
+                {
+                    _rentalDal.Add(entity);
+                    return new SuccessResult(Messages.AddRentalMessage);
+                }
+                else
+                {
+                    return new ErrorResult(isDeliveryControl.Message);
+                }
             }
-            else
+            catch (Exception e)
             {
-                return new ErrorResult(isDeliveryControl.Message);
+                return new ErrorResult(Messages.ErrorRentalFKMessage);
             }
         }
 
@@ -83,8 +91,15 @@ namespace Business.Concrete
 
         public Result Update(Rental entity)
         {
-            _rentalDal.Update(entity);
-            return new SuccessResult(Messages.EditRentalMessage);
+            try
+            {
+                _rentalDal.Update(entity);
+                return new SuccessResult(Messages.EditRentalMessage);
+            }
+            catch (Exception e)
+            {
+                return new ErrorResult(Messages.ErrorRentalFKMessage);
+            }
         }
     }
 }

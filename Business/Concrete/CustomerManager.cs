@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -18,8 +19,15 @@ namespace Business.Concrete
 
         public Result Add(Customer entity)
         {
-            _customerDal.Add(entity);
-            return new SuccessResult(Messages.AddCustomerMessage);
+            try
+            {
+                _customerDal.Add(entity);
+                return new SuccessResult(Messages.AddCustomerMessage);
+            }
+            catch (Exception e)
+            {
+                return new ErrorResult(Messages.ErrorCustomerFKMessage);
+            }
         }
 
         public Result Delete(Customer entity)
@@ -56,8 +64,15 @@ namespace Business.Concrete
 
         public Result Update(Customer entity)
         {
-            _customerDal.Update(entity);
-            return new SuccessResult(Messages.EditCustomerMessage);
+            try
+            {
+                _customerDal.Update(entity);
+                return new SuccessResult(Messages.EditCustomerMessage);
+            }
+            catch (Exception a)
+            {
+                return new ErrorResult(Messages.ErrorCustomerFKMessage);
+            }
         }
     }
 }

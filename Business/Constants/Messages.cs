@@ -10,6 +10,7 @@
         public static string EditCarMessage = "Araç başarıyla düzenlendi.";
         public static string GetSuccessCarMessage = "Araç bilgisi / bilgileri getirildi.";
         public static string GetErrorCarMessage = "Araç bilgisi / bilgileri getirilemedi.";
+        public static string ErrorCarFKMessage = "Renk ve Marka alanlarını tekrar kontrol ediniz..";
 
         //Brand
         public static string AddBrandMessage = "Marka başarıyla eklendi.";
@@ -34,6 +35,7 @@
         public static string EditCustomerMessage = "Müşteri başarıyla güncellendi.";
         public static string GetSuccessCustomerMessage = "Müşteri bilgisi / bilgileri getirildi.";
         public static string GetErrorCustomerMessage = "Müşteri bilgisi / bilgileri getirilemedi.";
+        public static string ErrorCustomerFKMessage = "Kullanıcı alanını tekrar kontrol ediniz..";
 
         //Rental
         public static string AddRentalMessage = "Araç kiralama işlemi başarıyla eklendi.";
@@ -44,6 +46,7 @@
         public static string GetErrorRentalMessage = "Araç kiralama işlemi bilgisi / bilgileri getirilemedi.";
         public static string CarAvaible = "Araç kiralanmaya uygundur.";
         public static string CarNotAvaible = "Araç kiralanmaya uygun değildir.";
+        public static string ErrorRentalFKMessage = "Müşteri ve araba alanlarını tekrar kontrol ediniz..";
 
         //User
         public static string AddUserMessage = "Üye başarıyla eklendi.";

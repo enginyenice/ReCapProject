@@ -4,6 +4,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -19,14 +20,21 @@ namespace Business.Concrete
 
         public Result Add(Car entity)
         {
-            if (entity.Description.Length >= 2 && entity.DailyPrice > 0)
+            try
             {
-                _carDal.Add(entity);
-                return new SuccessResult(Messages.AddCarMessage);
+                if (entity.Description.Length >= 2 && entity.DailyPrice > 0)
+                {
+                    _carDal.Add(entity);
+                    return new SuccessResult(Messages.AddCarMessage);
+                }
+                else
+                {
+                    return new ErrorResult(Messages.AddErrorCarMessage);
+                }
             }
-            else
+            catch (Exception e)
             {
-                return new ErrorResult(Messages.AddErrorCarMessage);
+                return new ErrorResult(Messages.ErrorCarFKMessage);
             }
         }
 
@@ -103,8 +111,15 @@ namespace Business.Concrete
 
         public Result Update(Car entity)
         {
-            _carDal.Update(entity);
-            return new SuccessResult(Messages.EditCarMessage);
+            try
+            {
+                _carDal.Update(entity);
+                return new SuccessResult(Messages.EditCarMessage);
+            }
+            catch
+            {
+                return new ErrorResult(Messages.ErrorCarFKMessage);
+            }
         }
     }
 }
