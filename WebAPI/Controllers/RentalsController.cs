@@ -33,6 +33,24 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getallundeliveredrentaldetails")]
+        public ActionResult GetAllUndeliveredRentalDetails()
+        {
+            var result = _rentalService.GetAllUndeliveredRentalDetails();
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpGet("getalldeliveredrentaldetails")]
+        public ActionResult GetAllDeliveredRentalDetails()
+        {
+            var result = _rentalService.GetAllDeliveredRentalDetails();
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public ActionResult GetAll()
         {

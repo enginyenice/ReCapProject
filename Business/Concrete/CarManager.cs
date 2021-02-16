@@ -32,7 +32,7 @@ namespace Business.Concrete
                     return new ErrorResult(Messages.AddErrorCarMessage);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ErrorResult(Messages.ErrorCarFKMessage);
             }

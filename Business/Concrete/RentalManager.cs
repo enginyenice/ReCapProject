@@ -33,7 +33,7 @@ namespace Business.Concrete
                     return new ErrorResult(isDeliveryControl.Message);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ErrorResult(Messages.ErrorRentalFKMessage);
             }
@@ -80,6 +80,24 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<RentalDetailDto>>(Messages.GetErrorRentalMessage);
         }
 
+        public DataResult<List<RentalDetailDto>> GetAllUndeliveredRentalDetails()
+        {
+            List<RentalDetailDto> rentalDetailDtos = _rentalDal.GetAllRentalDetails(p => p.ReturnDate == null);
+            if (rentalDetailDtos.Count > 0)
+                return new SuccessDataResult<List<RentalDetailDto>>(rentalDetailDtos, Messages.GetSuccessRentalMessage);
+            else
+                return new ErrorDataResult<List<RentalDetailDto>>(Messages.GetErrorRentalMessage);
+        }
+
+        public DataResult<List<RentalDetailDto>> GetAllDeliveredRentalDetails()
+        {
+            List<RentalDetailDto> rentalDetailDtos = _rentalDal.GetAllRentalDetails(p => p.ReturnDate != null);
+            if (rentalDetailDtos.Count > 0)
+                return new SuccessDataResult<List<RentalDetailDto>>(rentalDetailDtos, Messages.GetSuccessRentalMessage);
+            else
+                return new ErrorDataResult<List<RentalDetailDto>>(Messages.GetErrorRentalMessage);
+        }
+
         public DataResult<bool> IsDelivery(int carId)
         {
             Rental isDeliveryCar = _rentalDal.Get(p => p.CarId == carId && p.ReturnDate == null);
@@ -96,7 +114,7 @@ namespace Business.Concrete
                 _rentalDal.Update(entity);
                 return new SuccessResult(Messages.EditRentalMessage);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ErrorResult(Messages.ErrorRentalFKMessage);
             }

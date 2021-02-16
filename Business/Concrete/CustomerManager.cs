@@ -24,7 +24,7 @@ namespace Business.Concrete
                 _customerDal.Add(entity);
                 return new SuccessResult(Messages.AddCustomerMessage);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new ErrorResult(Messages.ErrorCustomerFKMessage);
             }
@@ -69,7 +69,7 @@ namespace Business.Concrete
                 _customerDal.Update(entity);
                 return new SuccessResult(Messages.EditCustomerMessage);
             }
-            catch (Exception a)
+            catch (Exception)
             {
                 return new ErrorResult(Messages.ErrorCustomerFKMessage);
             }
