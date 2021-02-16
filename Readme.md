@@ -1,3 +1,15 @@
+## 13.02.2021
+
+CarRental projenizde;
+
+WebAPI katmanını kurunuz.
+
+Business katmanındaki tüm servislerin Api karşılığını yazınız.
+
+Postman'de test ediniz.
+
+Kodlarınızı paylaşınız.
+
 
 ## 10.02.2021 - 4. Ödev
 
