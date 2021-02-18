@@ -1,11 +1,16 @@
-﻿using Business.Abstract;
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
+using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
-using Business.ValidationRules.FluentValidation;
-using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -17,6 +22,7 @@ namespace Business.Concrete
         {
             _userDal = userDal;
         }
+
         [ValidationAspect(typeof(UserValidator))]
         public Result Add(User entity)
         {
@@ -68,6 +74,7 @@ namespace Business.Concrete
                 return new SuccessDataResult<User>(user, Messages.GetSuccessUserMessage);
             }
         }
+
         [ValidationAspect(typeof(UserValidator))]
         public Result Update(User entity)
         {

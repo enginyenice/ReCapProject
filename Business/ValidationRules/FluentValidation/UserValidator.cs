@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
 using Entities.Concrete;
 using FluentValidation;
 
@@ -16,7 +18,6 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(user => user.Email).EmailAddress();
             RuleFor(user => user.Password).NotEmpty();
             RuleFor(user => user.Password).MinimumLength(6);
-
         }
     }
 }

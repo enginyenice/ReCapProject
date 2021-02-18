@@ -1,4 +1,9 @@
-﻿using Castle.DynamicProxy;
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
+using Castle.DynamicProxy;
 using System;
 
 namespace Core.Utilities.Interceptors

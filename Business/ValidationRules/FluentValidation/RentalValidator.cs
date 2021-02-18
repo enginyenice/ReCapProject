@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
 using Entities.Concrete;
 using FluentValidation;
 
@@ -13,7 +15,6 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(rental => rental.CarId).NotEmpty();
             RuleFor(rental => rental.CustomerId).NotEmpty();
             RuleFor(rental => rental.RentDate).NotEmpty();
-
         }
     }
 }

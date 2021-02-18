@@ -1,13 +1,18 @@
-﻿using Business.Abstract;
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
+using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
 using System;
 using System.Collections.Generic;
-using Business.ValidationRules.FluentValidation;
-using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {

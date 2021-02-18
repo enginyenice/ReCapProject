@@ -1,4 +1,9 @@
-﻿using Core.Utilities.Results;
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
+using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
 using System.Collections.Generic;

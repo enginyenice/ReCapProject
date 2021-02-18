@@ -1,4 +1,9 @@
-﻿namespace Core.Utilities.Results
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
+namespace Core.Utilities.Results
 {
     public class ErrorDataResult<T> : DataResult<T>
     {

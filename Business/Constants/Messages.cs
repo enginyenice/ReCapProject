@@ -1,4 +1,9 @@
-﻿namespace Business.Constants
+﻿/*
+Created By Engin Yenice
+enginyenice2626@gmail.com
+*/
+
+namespace Business.Constants
 {
     public static class Messages
     {
