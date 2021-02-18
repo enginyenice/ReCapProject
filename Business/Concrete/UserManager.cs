@@ -4,18 +4,20 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        private IUserDal _userDal;
+        private readonly IUserDal _userDal;
 
         public UserManager(IUserDal userDal)
         {
             _userDal = userDal;
         }
-
+        [ValidationAspect(typeof(UserValidator))]
         public Result Add(User entity)
         {
             _userDal.Add(entity);
@@ -66,7 +68,7 @@ namespace Business.Concrete
                 return new SuccessDataResult<User>(user, Messages.GetSuccessUserMessage);
             }
         }
-
+        [ValidationAspect(typeof(UserValidator))]
         public Result Update(User entity)
         {
             _userDal.Update(entity);

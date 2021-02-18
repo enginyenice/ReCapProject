@@ -5,18 +5,21 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
     public class CustomerManager : ICustomerService
     {
-        private ICustomerDal _customerDal;
+        private readonly ICustomerDal _customerDal;
 
         public CustomerManager(ICustomerDal customerDal)
         {
             _customerDal = customerDal;
         }
 
+        [ValidationAspect(typeof(CustomerValidator))]
         public Result Add(Customer entity)
         {
             try
@@ -62,6 +65,7 @@ namespace Business.Concrete
             }
         }
 
+        [ValidationAspect(typeof(CustomerValidator))]
         public Result Update(Customer entity)
         {
             try

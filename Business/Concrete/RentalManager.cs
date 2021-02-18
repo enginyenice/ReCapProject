@@ -6,18 +6,21 @@ using Entities.Concrete;
 using Entities.Dtos;
 using System;
 using System.Collections.Generic;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
     public class RentalManager : IRentalService
     {
-        private IRentalDal _rentalDal;
+        private readonly IRentalDal _rentalDal;
 
         public RentalManager(IRentalDal rentalDal)
         {
             _rentalDal = rentalDal;
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public Result Add(Rental entity)
         {
             try
@@ -107,6 +110,7 @@ namespace Business.Concrete
                 return new SuccessDataResult<bool>(true, Messages.CarAvaible);
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public Result Update(Rental entity)
         {
             try

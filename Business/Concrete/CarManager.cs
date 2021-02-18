@@ -97,6 +97,7 @@ namespace Business.Concrete
             }
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public Result Update(Car entity)
         {
             try
