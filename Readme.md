@@ -1,3 +1,24 @@
+## 17.02.2021 3. Ödev
+
+Car Rental Projenize AOP desteği ekleyiniz.
+
+ValidationAspect ekleyiniz.
+
+Yazdığınız kodların Github linkini paylaşınız.
+
+
+## 17.02.2021 2. Ödev
+
+Car Rental Projenize FluentValidation desteği ekleyiniz.
+
+Yazdığınız kodların Github linkini paylaşınız.
+
+## 17.02.2021 1. Ödev
+
+Car Rental Projenize Autofac desteği ekleyiniz.
+
+Yazdığınız kodların Github linkini paylaşınız.
+
 ## 13.02.2021
 
 CarRental projenizde;
