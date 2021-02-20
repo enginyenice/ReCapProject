@@ -1,7 +1,5 @@
-﻿/*
-Created By Engin Yenice
-enginyenice2626@gmail.com
-*/
+﻿/*Created By Engin Yenice
+enginyenice2626@gmail.com*/
 
 namespace Business.Constants
 {

@@ -1,7 +1,5 @@
-﻿/*
-Created By Engin Yenice
-enginyenice2626@gmail.com
-*/
+﻿/*Created By Engin Yenice
+enginyenice2626@gmail.com*/
 
 using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
@@ -14,23 +12,23 @@ using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfRentalDal : EfRepositoryBase<Rental, EfContext>, IRentalDal
+    public class EfRentalDal : EfRepositoryBase<Rental, ReCapProjectContext>, IRentalDal
     {
         public List<RentalDetailDto> GetAllRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
-            using (EfContext context = new EfContext())
+            using (ReCapProjectContext context = new ReCapProjectContext())
             {
                 var result =
-                    from rental in filter == null ? context.Rental : context.Rental.Where(filter)
-                    join customer in context.Customer
+                    from rental in filter == null ? context.Rentals : context.Rentals.Where(filter)
+                    join customer in context.Customers
                         on rental.CustomerId equals customer.Id
-                    join user in context.User
+                    join user in context.Users
                          on customer.UserId equals user.Id
-                    join car in context.Car
+                    join car in context.Cars
                          on rental.CarId equals car.Id
-                    join brand in context.Brand
+                    join brand in context.Brands
                          on car.BrandId equals brand.Id
-                    join color in context.Color
+                    join color in context.Colors
                          on car.ColorId equals color.Id
                     select new RentalDetailDto
                     {

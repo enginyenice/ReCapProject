@@ -1,7 +1,5 @@
-﻿/*
-Created By Engin Yenice
-enginyenice2626@gmail.com
-*/
+﻿/*Created By Engin Yenice
+enginyenice2626@gmail.com*/
 
 using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
@@ -14,16 +12,16 @@ using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfCarDal : EfRepositoryBase<Car, EfContext>, ICarDal
+    public class EfCarDal : EfRepositoryBase<Car, ReCapProjectContext>, ICarDal
     {
         public List<CarDetailDto> GetCarsDetail(Expression<Func<Car, bool>> filter = null)
         {
-            using (EfContext context = new EfContext())
+            using (ReCapProjectContext context = new ReCapProjectContext())
             {
-                var result = from p in filter == null ? context.Car : context.Car.Where(filter)
-                             join c in context.Color
+                var result = from p in filter == null ? context.Cars : context.Cars.Where(filter)
+                             join c in context.Colors
                              on p.ColorId equals c.Id
-                             join d in context.Brand
+                             join d in context.Brands
                              on p.BrandId equals d.Id
                              select new CarDetailDto
                              {

@@ -9,7 +9,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfBrandDal : EfRepositoryBase<Brand, EfContext>, IBrandDal
+    public class EfBrandDal : EfRepositoryBase<Brand, ReCapProjectContext>, IBrandDal
     {
     }
 }
