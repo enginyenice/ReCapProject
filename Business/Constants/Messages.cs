@@ -49,6 +49,8 @@ namespace Business.Constants
         public static string GetErrorRentalMessage = "Araç kiralama işlemi bilgisi / bilgileri getirilemedi.";
         public static string CarAvaible = "Araç kiralanmaya uygundur.";
         public static string CarNotAvaible = "Araç kiralanmaya uygun değildir.";
+        public static string CarNotDeliverTheCar = "Araç teslim almaya uygun değildir.";
+        public static string CarDeliverTheCar = "Araç teslim alındı.";
         public static string ErrorRentalFKMessage = "Müşteri ve araba alanlarını tekrar kontrol ediniz..";
 
         //User

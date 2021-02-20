@@ -126,5 +126,17 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.ErrorRentalFKMessage);
             }
         }
+
+        public Result DeliverTheCar(int carId)
+        {
+            var deliverCar = _rentalDal.Get(p => p.CarId == carId && p.ReturnDate == null);
+            if (deliverCar != null)
+            {
+                deliverCar.ReturnDate = DateTime.Now;
+                Update(deliverCar);
+                return new SuccessResult(Messages.CarDeliverTheCar);
+            }
+            return new SuccessResult(Messages.CarNotDeliverTheCar);
+        }
     }
 }

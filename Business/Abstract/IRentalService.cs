@@ -12,6 +12,8 @@ namespace Business.Abstract
     {
         DataResult<bool> IsDelivery(int carId);
 
+        Result DeliverTheCar(int carId);
+
         DataResult<List<RentalDetailDto>> GetAllRentalDetails();
 
         DataResult<List<RentalDetailDto>> GetAllUndeliveredRentalDetails();

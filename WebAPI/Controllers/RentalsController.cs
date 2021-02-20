@@ -54,6 +54,16 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("deliverthecar")]
+        public ActionResult DeliverTheCar(Rental rental)
+        {
+            var result = _rentalService.DeliverTheCar(rental.CarId);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public ActionResult GetAll()
         {
