@@ -23,19 +23,19 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarValidator))]
-        public Result Add(Car entity)
+        public IResult Add(Car entity)
         {
             _carDal.Add(entity);
             return new SuccessResult(Messages.AddCarMessage);
         }
 
-        public Result Delete(Car entity)
+        public IResult Delete(Car entity)
         {
             _carDal.Delete(entity);
             return new SuccessResult(Messages.DeleteCarMessage);
         }
 
-        public DataResult<Car> Get(int id)
+        public IDataResult<Car> Get(int id)
         {
             Car car = _carDal.Get(p => p.Id == id);
             if (car == null)
@@ -48,7 +48,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<Car>> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
             List<Car> cars = _carDal.GetAll();
             if (cars.Count == 0)
@@ -61,7 +61,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<Car>> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
             List<Car> cars = _carDal.GetAll(p => p.BrandId == brandId);
             if (cars == null)
@@ -74,7 +74,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<Car>> GetCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
             List<Car> cars = _carDal.GetAll(p => p.ColorId == colorId);
             if (cars == null)
@@ -87,7 +87,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<CarDetailDto>> GetCarsDetail()
+        public IDataResult<List<CarDetailDto>> GetCarsDetail()
         {
             List<CarDetailDto> carDetails = _carDal.GetCarsDetail();
             if (carDetails == null)
@@ -101,17 +101,10 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarValidator))]
-        public Result Update(Car entity)
+        public IResult Update(Car entity)
         {
-            try
-            {
-                _carDal.Update(entity);
-                return new SuccessResult(Messages.EditCarMessage);
-            }
-            catch
-            {
-                return new ErrorResult(Messages.ErrorCarFKMessage);
-            }
+            _carDal.Update(entity);
+            return new SuccessResult(Messages.EditCarMessage);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
-        public Result Add(Customer entity)
+       public IResult Add(Customer entity)
         {
             try
             {
@@ -36,13 +36,13 @@ namespace Business.Concrete
             }
         }
 
-        public Result Delete(Customer entity)
+       public IResult Delete(Customer entity)
         {
             _customerDal.Delete(entity);
             return new SuccessResult(Messages.DeleteCustomerMessage);
         }
 
-        public DataResult<Customer> Get(int id)
+        public IDataResult<Customer> Get(int id)
         {
             Customer customer = _customerDal.Get(p => p.Id == id);
             if (customer == null)
@@ -55,7 +55,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<Customer>> GetAll()
+        public IDataResult<List<Customer>> GetAll()
         {
             List<Customer> customers = _customerDal.GetAll();
             if (customers.Count == 0)
@@ -69,7 +69,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
-        public Result Update(Customer entity)
+       public IResult Update(Customer entity)
         {
             try
             {

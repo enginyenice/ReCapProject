@@ -10,14 +10,12 @@ namespace Business.Abstract
 {
     public interface IRentalService : IBaseService<Rental>
     {
-        DataResult<bool> IsDelivery(int carId);
+        IResult DeliverTheCar(int carId);
 
-        Result DeliverTheCar(int carId);
+        IDataResult<List<RentalDetailDto>> GetAllRentalDetails();
 
-        DataResult<List<RentalDetailDto>> GetAllRentalDetails();
+        IDataResult<List<RentalDetailDto>> GetAllUndeliveredRentalDetails();
 
-        DataResult<List<RentalDetailDto>> GetAllUndeliveredRentalDetails();
-
-        DataResult<List<RentalDetailDto>> GetAllDeliveredRentalDetails();
+        IDataResult<List<RentalDetailDto>> GetAllDeliveredRentalDetails();
     }
 }

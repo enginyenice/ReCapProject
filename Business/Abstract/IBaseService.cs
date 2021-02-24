@@ -9,14 +9,14 @@ namespace Business.Abstract
 {
     public interface IBaseService<T> where T : IEntity
     {
-        DataResult<List<T>> GetAll();
+        IDataResult<List<T>> GetAll();
 
-        DataResult<T> Get(int id);
+        IDataResult<T> Get(int id);
 
-        Result Add(T entity);
+        IResult Add(T entity);
 
-        Result Update(T entity);
+        IResult Update(T entity);
 
-        Result Delete(T entity);
+        IResult Delete(T entity);
     }
 }

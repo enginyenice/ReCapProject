@@ -22,19 +22,19 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
-        public Result Add(User entity)
+       public IResult Add(User entity)
         {
             _userDal.Add(entity);
             return new SuccessResult(Messages.AddUserMessage);
         }
 
-        public Result Delete(User entity)
+       public IResult Delete(User entity)
         {
             _userDal.Delete(entity);
             return new SuccessResult(Messages.DeleteUserMessage);
         }
 
-        public DataResult<User> Get(int id)
+        public IDataResult<User> Get(int id)
         {
             User user = _userDal.Get(p => p.Id == id);
             if (user == null)
@@ -47,7 +47,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<User>> GetAll()
+        public IDataResult<List<User>> GetAll()
         {
             List<User> users = _userDal.GetAll();
             if (users.Count == 0)
@@ -60,7 +60,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<User> GetByEmail(string email)
+        public IDataResult<User> GetByEmail(string email)
         {
             User user = _userDal.Get(p => p.Email == email);
             if (user == null)
@@ -74,7 +74,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
-        public Result Update(User entity)
+       public IResult Update(User entity)
         {
             _userDal.Update(entity);
             return new SuccessResult(Messages.EditUserMessage);

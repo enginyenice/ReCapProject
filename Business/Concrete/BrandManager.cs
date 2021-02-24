@@ -22,19 +22,19 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(BrandValidatior))]
-        public Result Add(Brand entity)
+       public IResult Add(Brand entity)
         {
             _brandDal.Add(entity);
             return new SuccessResult(Messages.AddBrandMessage);
         }
 
-        public Result Delete(Brand entity)
+       public IResult Delete(Brand entity)
         {
             _brandDal.Delete(entity);
             return new SuccessResult(Messages.DeleteBrandMessage);
         }
 
-        public DataResult<Brand> Get(int id)
+        public IDataResult<Brand> Get(int id)
         {
             Brand brand = _brandDal.Get(p => p.Id == id);
 
@@ -48,7 +48,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<Brand>> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
             List<Brand> brands = _brandDal.GetAll();
             if (brands == null)
@@ -62,7 +62,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(BrandValidatior))]
-        public Result Update(Brand entity)
+       public IResult Update(Brand entity)
         {
             _brandDal.Update(entity);
             return new SuccessResult(Messages.EditBrandMessage);

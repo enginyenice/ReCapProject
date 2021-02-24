@@ -22,19 +22,19 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ColorValidator))]
-        public Result Add(Color entity)
+       public IResult Add(Color entity)
         {
             _colorDal.Add(entity);
             return new SuccessResult(Messages.AddColorMessage);
         }
 
-        public Result Delete(Color entity)
+       public IResult Delete(Color entity)
         {
             _colorDal.Delete(entity);
             return new SuccessResult(Messages.DeleteColorMessage);
         }
 
-        public DataResult<Color> Get(int id)
+        public IDataResult<Color> Get(int id)
         {
             Color color = _colorDal.Get(p => p.Id == id);
             if (color == null)
@@ -47,7 +47,7 @@ namespace Business.Concrete
             }
         }
 
-        public DataResult<List<Color>> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
             List<Color> colors = _colorDal.GetAll();
             if (colors == null)
@@ -61,7 +61,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ColorValidator))]
-        public Result Update(Color entity)
+       public IResult Update(Color entity)
         {
             _colorDal.Update(entity);
             return new SuccessResult(Messages.EditColorMessage);
