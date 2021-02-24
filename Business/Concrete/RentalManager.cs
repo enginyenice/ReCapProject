@@ -27,7 +27,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental entity)
         {
-            var result = BusinessRules.Run(IsDelivery(entity.CarId));
+            var result = BusinessRules.Run(WillLeasedCarAvailable(entity.CarId));
 
             if (result != null)
             {
@@ -96,39 +96,42 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<RentalDetailDto>>(Messages.GetErrorRentalMessage);
         }
 
-        private IResult IsDelivery(int carId)
+        [ValidationAspect(typeof(RentalValidator))]
+        public IResult Update(Rental entity)
         {
-            Rental isDeliveryCar = _rentalDal.Get(p => p.CarId == carId && p.ReturnDate == null);
+            _rentalDal.Update(entity);
+            return new SuccessResult(Messages.EditRentalMessage);
+        }
+
+        public IResult DeliverTheCar(Rental entity)
+        {
+            var result = BusinessRules.Run(CanARentalCarBeReturned(entity.Id));
+            if (result != null)
+            {
+                return result;
+            }
+            _rentalDal.Update(entity);
+            return new SuccessResult(Messages.CarDeliverTheCar);
+        }
+
+        #region RentalManager Business Rules
+
+        private IResult WillLeasedCarAvailable(int carId)
+        {
             if (_rentalDal.Get(p => p.CarId == carId && p.ReturnDate == null) != null)
                 return new ErrorResult(Messages.CarNotAvaible);
             else
                 return new SuccessResult();
         }
 
-        [ValidationAspect(typeof(RentalValidator))]
-        public IResult Update(Rental entity)
+        private IResult CanARentalCarBeReturned(int carId)
         {
-            try
-            {
-                _rentalDal.Update(entity);
-                return new SuccessResult(Messages.EditRentalMessage);
-            }
-            catch (Exception)
-            {
-                return new ErrorResult(Messages.ErrorRentalFKMessage);
-            }
+            if (_rentalDal.Get(p => p.CarId == carId && p.ReturnDate == null) == null)
+                return new ErrorResult(Messages.CarNotAvaible);
+            else
+                return new SuccessResult();
         }
 
-        public IResult DeliverTheCar(int carId)
-        {
-            var deliverCar = _rentalDal.Get(p => p.CarId == carId && p.ReturnDate == null);
-            if (deliverCar != null)
-            {
-                deliverCar.ReturnDate = DateTime.Now;
-                Update(deliverCar);
-                return new SuccessResult(Messages.CarDeliverTheCar);
-            }
-            return new SuccessResult(Messages.CarNotDeliverTheCar);
-        }
+        #endregion RentalManager Business Rules
     }
 }

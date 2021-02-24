@@ -57,7 +57,7 @@ namespace WebAPI.Controllers
         [HttpPost("deliverthecar")]
         public ActionResult DeliverTheCar(Rental rental)
         {
-            var result = _rentalService.DeliverTheCar(rental.CarId);
+            var result = _rentalService.DeliverTheCar(rental);
             if (result.Success)
                 return Ok(result);
             else
