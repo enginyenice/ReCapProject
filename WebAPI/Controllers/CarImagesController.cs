@@ -35,6 +35,7 @@ namespace WebAPI.Controllers
                 {
                     carImageModel.image.CopyTo(stream);
                     tempPath = stream.Name;
+                    stream.Flush();
                 }
             }
 
@@ -55,6 +56,7 @@ namespace WebAPI.Controllers
                 {
                     carImageModel.image.CopyTo(stream);
                     tempPath = stream.Name;
+                    stream.Flush();
                 }
             }
 
