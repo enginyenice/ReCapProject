@@ -10,7 +10,6 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
-using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete

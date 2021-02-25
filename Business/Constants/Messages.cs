@@ -60,5 +60,12 @@ namespace Business.Constants
         public static string EditUserMessage = "Üye başarıyla güncellendi.";
         public static string GetSuccessUserMessage = "Üye bilgisi / bilgileri getirildi.";
         public static string GetErrorUserMessage = "Üye bilgisi / bilgileri getirilemedi.";
+
+        //CarImage
+
+        public static string AddCarImageMessage = "Araç resmi başarıyla eklendi";
+        public static string EditCarImageMessage = "Araç resmi başarıyla güncellendi";
+        public static string DeleteCarImageMessage = "Araç resmi başarıyla silindi";
+        public static string AboveImageAddingLimit = "Araç maksimum resim sayısına ulaştı. Resim ekleyemezsiniz";
     }
 }
