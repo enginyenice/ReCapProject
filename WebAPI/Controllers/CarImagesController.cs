@@ -4,6 +4,9 @@ enginyenice2626@gmail.com*/
 using Business.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -19,9 +22,22 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CarImage carImage)
+        [DisableRequestSizeLimit]
+        public IActionResult Add([FromForm] CarImageModel carImageModel)
         {
-            return Ok(_carImageService.Add(carImage));
+            string tempPath = "";
+            if (carImageModel.image.Length > 0)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.image.FileName).ToLower();
+                var filePath = Path.Combine(Path.GetTempPath(), fileName);
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    carImageModel.image.CopyTo(stream);
+                    tempPath = stream.Name;
+                }
+            }
+            return Ok(_carImageService.Add(new CarImage { CarID = carImageModel.carID, ImagePath = tempPath }));
         }
 
         [HttpPost("delete")]

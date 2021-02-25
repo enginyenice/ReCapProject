@@ -3,6 +3,8 @@ enginyenice2626@gmail.com*/
 
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -24,16 +26,18 @@ namespace Business.Concrete
             _carService = carService;
         }
 
+        [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(CarImage entity)
         {
-            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID), CheckIfFileExtension(entity.ImagePath));
+            var result = BusinessRules.Run(
+                CheckCarImageCount(entity.CarID),
+                CheckIfFileExtension(entity.ImagePath));
             if (result != null)
             {
                 return result;
             }
 
-            var fileExtension = Path.GetExtension(entity.ImagePath).ToLower();
-            string createPath = ImagePath(entity.CarID, fileExtension);
+            string createPath = FilePaths.ImageFolderPath + Path.GetFileName(entity.ImagePath);
             File.Copy(entity.ImagePath, createPath);
             entity.ImagePath = createPath;
             entity.Date = DateTime.Now;
@@ -68,11 +72,12 @@ namespace Business.Concrete
                 return result;
             }
 
-            var fileExtension = Path.GetExtension(entity.ImagePath).ToLower();
-            string createPath = ImagePath(entity.CarID, fileExtension);
+            string createPath = FilePaths.ImageFolderPath + Path.GetFileName(entity.ImagePath);
+            File.Delete(_carImageDal.Get(p => p.Id == entity.Id).ImagePath);
             File.Copy(entity.ImagePath, createPath);
-            File.Delete(entity.ImagePath);
             entity.ImagePath = createPath;
+            entity.Date = DateTime.Now;
+
             _carImageDal.Update(entity);
             return new SuccessResult(Messages.EditCarImageMessage);
         }
@@ -93,16 +98,6 @@ namespace Business.Concrete
 
             return new SuccessDataResult<List<CarImage>>(getAllbyCarIdResult);
         }
-
-        #region Car Image Business Codes
-
-        private string ImagePath(int carId, string fileExtension)
-        {
-            string GuidKey = Guid.NewGuid().ToString();
-            return FilePaths.ImageFolderPath + GuidKey + fileExtension;
-        }
-
-        #endregion Car Image Business Codes
 
         #region Car Image Business Rules
 
