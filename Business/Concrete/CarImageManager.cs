@@ -29,6 +29,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(CarImage entity)
         {
+            FolderControl();
             var result = BusinessRules.Run(
                 CheckCarImageCount(entity.CarID),
                 CheckIfFileExtension(entity.ImagePath));
@@ -66,6 +67,7 @@ namespace Business.Concrete
 
         public IResult Update(CarImage entity)
         {
+            FolderControl();
             var result = BusinessRules.Run(CheckCarImageCount(entity.CarID), CheckIfFileExtension(entity.ImagePath));
             if (result != null)
             {
@@ -73,10 +75,12 @@ namespace Business.Concrete
             }
 
             string createPath = FilePaths.ImageFolderPath + Path.GetFileName(entity.ImagePath);
-            File.Delete(_carImageDal.Get(p => p.Id == entity.Id).ImagePath);
-            File.Copy(entity.ImagePath, createPath);
-            entity.ImagePath = createPath;
-            entity.Date = DateTime.Now;
+            if (entity.ImagePath.Length > 0)
+            {
+                File.Delete(_carImageDal.Get(p => p.Id == entity.Id).ImagePath);
+                File.Copy(entity.ImagePath, createPath);
+                entity.ImagePath = createPath;
+            }
 
             _carImageDal.Update(entity);
             return new SuccessResult(Messages.EditCarImageMessage);
@@ -130,5 +134,17 @@ namespace Business.Concrete
         }
 
         #endregion Car Image Business Rules
+
+        #region Car Image Business Codes
+
+        private void FolderControl()
+        {
+            if (!Directory.Exists(FilePaths.ImageFolderPath))
+            {
+                System.IO.Directory.CreateDirectory(FilePaths.ImageFolderPath);
+            }
+        }
+
+        #endregion Car Image Business Codes
     }
 }

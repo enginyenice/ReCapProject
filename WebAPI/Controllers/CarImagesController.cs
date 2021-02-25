@@ -37,7 +37,28 @@ namespace WebAPI.Controllers
                     tempPath = stream.Name;
                 }
             }
+
             return Ok(_carImageService.Add(new CarImage { CarID = carImageModel.carID, ImagePath = tempPath }));
+        }
+
+        [HttpPost("update")]
+        [DisableRequestSizeLimit]
+        public IActionResult Update([FromForm] CarImageModel carImageModel)
+        {
+            string tempPath = "";
+            if (carImageModel.image.Length > 0)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.image.FileName).ToLower();
+                var filePath = Path.Combine(Path.GetTempPath(), fileName);
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    carImageModel.image.CopyTo(stream);
+                    tempPath = stream.Name;
+                }
+            }
+
+            return Ok(_carImageService.Update(new CarImage { CarID = carImageModel.carID, ImagePath = tempPath }));
         }
 
         [HttpPost("delete")]
