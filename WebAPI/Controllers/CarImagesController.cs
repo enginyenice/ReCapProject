@@ -6,7 +6,7 @@ using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
-using WebAPI.Models;
+using WebAPI.Models.Concrete;
 
 namespace WebAPI.Controllers
 {
