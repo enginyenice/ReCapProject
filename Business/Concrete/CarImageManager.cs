@@ -89,7 +89,8 @@ namespace Business.Concrete
 
         private string ImagePath(int carId)
         {
-            return FilePaths.ImageFolderPath + "CAR" + carId + "DATE" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".jpeg";
+            string GuidKey = Guid.NewGuid().ToString();
+            return FilePaths.ImageFolderPath + GuidKey + ".jpeg";
         }
 
         #endregion Car Image Business Codes
