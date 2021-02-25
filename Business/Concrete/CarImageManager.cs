@@ -26,7 +26,7 @@ namespace Business.Concrete
 
         public IResult Add(CarImage entity)
         {
-            var result = BusinessRules.Run(CheckCarImageCount());
+            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID));
             if (result != null)
             {
                 return result;
@@ -97,9 +97,9 @@ namespace Business.Concrete
 
         #region Car Image Business Rules
 
-        private IResult CheckCarImageCount()
+        private IResult CheckCarImageCount(int carId)
         {
-            if (_carImageDal.GetAll().Count > 4)
+            if (_carImageDal.GetAll(p => p.CarID == carId).Count > 4)
             {
                 return new ErrorResult(Messages.AboveImageAddingLimit);
             }
