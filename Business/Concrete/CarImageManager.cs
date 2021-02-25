@@ -26,13 +26,14 @@ namespace Business.Concrete
 
         public IResult Add(CarImage entity)
         {
-            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID));
+            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID), CheckIfFileExtension(entity.ImagePath));
             if (result != null)
             {
                 return result;
             }
 
-            string createPath = ImagePath(entity.CarID);
+            var fileExtension = Path.GetExtension(entity.ImagePath).ToLower();
+            string createPath = ImagePath(entity.CarID, fileExtension);
             File.Copy(entity.ImagePath, createPath);
             entity.ImagePath = createPath;
             entity.Date = DateTime.Now;
@@ -61,7 +62,14 @@ namespace Business.Concrete
 
         public IResult Update(CarImage entity)
         {
-            string createPath = ImagePath(entity.CarID);
+            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID), CheckIfFileExtension(entity.ImagePath));
+            if (result != null)
+            {
+                return result;
+            }
+
+            var fileExtension = Path.GetExtension(entity.ImagePath).ToLower();
+            string createPath = ImagePath(entity.CarID, fileExtension);
             File.Copy(entity.ImagePath, createPath);
             File.Delete(entity.ImagePath);
             entity.ImagePath = createPath;
@@ -88,10 +96,10 @@ namespace Business.Concrete
 
         #region Car Image Business Codes
 
-        private string ImagePath(int carId)
+        private string ImagePath(int carId, string fileExtension)
         {
             string GuidKey = Guid.NewGuid().ToString();
-            return FilePaths.ImageFolderPath + GuidKey + ".jpeg";
+            return FilePaths.ImageFolderPath + GuidKey + fileExtension;
         }
 
         #endregion Car Image Business Codes
@@ -114,6 +122,16 @@ namespace Business.Concrete
                 return new ErrorDataResult<List<CarImage>>(Messages.GetErrorCarMessage);
             }
             return new SuccessDataResult<List<CarImage>>();
+        }
+
+        private IResult CheckIfFileExtension(string path)
+        {
+            string acceptableExtensions = ".png|.jpeg|.jpg";
+            if (String.Compare(Path.GetExtension(path).ToLower(), acceptableExtensions) == 0)
+            {
+                return new ErrorResult(Messages.IncorrectFileExtension);
+            }
+            return new SuccessResult();
         }
 
         #endregion Car Image Business Rules
