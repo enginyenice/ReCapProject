@@ -35,6 +35,7 @@ namespace Business.Concrete
             string createPath = ImagePath(entity.CarID);
             File.Copy(entity.ImagePath, createPath);
             entity.ImagePath = createPath;
+            entity.Date = DateTime.Now;
             _carImageDal.Add(entity);
 
             return new SuccessResult(Messages.AddCarImageMessage);
