@@ -22,13 +22,13 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(BrandValidatior))]
-       public IResult Add(Brand entity)
+        public IResult Add(Brand entity)
         {
             _brandDal.Add(entity);
             return new SuccessResult(Messages.AddBrandMessage);
         }
 
-       public IResult Delete(Brand entity)
+        public IResult Delete(Brand entity)
         {
             _brandDal.Delete(entity);
             return new SuccessResult(Messages.DeleteBrandMessage);
@@ -62,7 +62,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(BrandValidatior))]
-       public IResult Update(Brand entity)
+        public IResult Update(Brand entity)
         {
             _brandDal.Update(entity);
             return new SuccessResult(Messages.EditBrandMessage);

@@ -22,13 +22,13 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ColorValidator))]
-       public IResult Add(Color entity)
+        public IResult Add(Color entity)
         {
             _colorDal.Add(entity);
             return new SuccessResult(Messages.AddColorMessage);
         }
 
-       public IResult Delete(Color entity)
+        public IResult Delete(Color entity)
         {
             _colorDal.Delete(entity);
             return new SuccessResult(Messages.DeleteColorMessage);
@@ -61,7 +61,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ColorValidator))]
-       public IResult Update(Color entity)
+        public IResult Update(Color entity)
         {
             _colorDal.Update(entity);
             return new SuccessResult(Messages.EditColorMessage);

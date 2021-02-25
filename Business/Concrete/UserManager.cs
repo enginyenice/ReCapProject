@@ -22,13 +22,13 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
-       public IResult Add(User entity)
+        public IResult Add(User entity)
         {
             _userDal.Add(entity);
             return new SuccessResult(Messages.AddUserMessage);
         }
 
-       public IResult Delete(User entity)
+        public IResult Delete(User entity)
         {
             _userDal.Delete(entity);
             return new SuccessResult(Messages.DeleteUserMessage);
@@ -74,7 +74,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(UserValidator))]
-       public IResult Update(User entity)
+        public IResult Update(User entity)
         {
             _userDal.Update(entity);
             return new SuccessResult(Messages.EditUserMessage);

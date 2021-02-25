@@ -23,7 +23,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
-       public IResult Add(Customer entity)
+        public IResult Add(Customer entity)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Business.Concrete
             }
         }
 
-       public IResult Delete(Customer entity)
+        public IResult Delete(Customer entity)
         {
             _customerDal.Delete(entity);
             return new SuccessResult(Messages.DeleteCustomerMessage);
@@ -69,7 +69,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CustomerValidator))]
-       public IResult Update(Customer entity)
+        public IResult Update(Customer entity)
         {
             try
             {
