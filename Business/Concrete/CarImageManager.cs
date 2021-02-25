@@ -89,7 +89,7 @@ namespace Business.Concrete
 
         private string ImagePath(int carId)
         {
-            return AppDomain.CurrentDomain.BaseDirectory + "Images\\" + "CAR" + carId + "DATE" + DateTime.Now.ToShortDateString() + ".jpeg";
+            return FilePaths.ImageFolderPath + "CAR" + carId + "DATE" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".jpeg";
         }
 
         #endregion Car Image Business Codes
