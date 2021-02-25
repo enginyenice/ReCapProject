@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
         public IActionResult Add([FromForm] CarImageModel carImageModel)
         {
             string tempPath = "";
-            if (carImageModel.image.Length > 0)
+            if (carImageModel.image != null && carImageModel.image.Length > 0)
             {
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.image.FileName).ToLower();
                 var filePath = Path.Combine(Path.GetTempPath(), fileName);
@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
         public IActionResult Update([FromForm] CarImageModel carImageModel)
         {
             string tempPath = "";
-            if (carImageModel.image.Length > 0)
+            if (carImageModel.image != null && carImageModel.image.Length > 0)
             {
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.image.FileName).ToLower();
                 var filePath = Path.Combine(Path.GetTempPath(), fileName);
