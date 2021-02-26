@@ -17,8 +17,8 @@ namespace Business.Concrete
 {
     public class CarImageManager : ICarImageService
     {
-        private ICarImageDal _carImageDal;
-        private ICarService _carService;
+        private readonly ICarImageDal _carImageDal;
+        private readonly ICarService _carService;
 
         public CarImageManager(ICarImageDal carImageDal, ICarService carService)
         {
@@ -29,7 +29,6 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(CarImage entity)
         {
-            FolderControl();
             var result = BusinessRules.Run(
                 CheckCarImageCount(entity.CarID),
                 CheckIfFileExtension(entity.ImagePath));
@@ -38,10 +37,7 @@ namespace Business.Concrete
                 return result;
             }
 
-            string createPath = FilePaths.ImageFolderPath + Path.GetFileName(entity.ImagePath);
-            File.Copy(entity.ImagePath, createPath);
-            entity.ImagePath = createPath;
-            entity.Date = DateTime.Now;
+            CreateImage(entity);
             _carImageDal.Add(entity);
 
             return new SuccessResult(Messages.AddCarImageMessage);
@@ -67,19 +63,16 @@ namespace Business.Concrete
 
         public IResult Update(CarImage entity)
         {
-            FolderControl();
             var result = BusinessRules.Run(CheckCarImageCount(entity.CarID), CheckIfFileExtension(entity.ImagePath));
             if (result != null)
             {
                 return result;
             }
 
-            string createPath = FilePaths.ImageFolderPath + Path.GetFileName(entity.ImagePath);
             if (entity.ImagePath.Length > 0)
             {
                 File.Delete(_carImageDal.Get(p => p.Id == entity.Id).ImagePath);
-                File.Copy(entity.ImagePath, createPath);
-                entity.ImagePath = createPath;
+                CreateImage(entity);
             }
 
             _carImageDal.Update(entity);
@@ -143,6 +136,15 @@ namespace Business.Concrete
             {
                 System.IO.Directory.CreateDirectory(FilePaths.ImageFolderPath);
             }
+        }
+
+        private void CreateImage(CarImage entity)
+        {
+            FolderControl();
+            string createPath = FilePaths.ImageFolderPath + Path.GetFileName(entity.ImagePath);
+            File.Copy(entity.ImagePath, createPath);
+            entity.ImagePath = createPath;
+            entity.Date = DateTime.Now;
         }
 
         #endregion Car Image Business Codes

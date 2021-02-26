@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarImagesController : ControllerBase
     {
-        private ICarImageService _carImageService;
+        private readonly ICarImageService _carImageService;
 
         public CarImagesController(ICarImageService carImageService)
         {
@@ -25,42 +25,33 @@ namespace WebAPI.Controllers
         [DisableRequestSizeLimit]
         public IActionResult Add([FromForm] CarImageModel carImageModel)
         {
-            string tempPath = "";
-            if (carImageModel.image != null && carImageModel.image.Length > 0)
-            {
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.image.FileName).ToLower();
-                var filePath = Path.Combine(Path.GetTempPath(), fileName);
-
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    carImageModel.image.CopyTo(stream);
-                    tempPath = stream.Name;
-                    stream.Flush();
-                }
-            }
-
-            return Ok(_carImageService.Add(new CarImage { CarID = carImageModel.carID, ImagePath = tempPath }));
+            string tempPath = CreateImage(carImageModel);
+            return Ok(_carImageService.Add(new CarImage { CarID = carImageModel.CarID, ImagePath = tempPath }));
         }
 
         [HttpPost("update")]
         [DisableRequestSizeLimit]
         public IActionResult Update([FromForm] CarImageModel carImageModel)
         {
+            string tempPath = CreateImage(carImageModel);
+            return Ok(_carImageService.Update(new CarImage { Id = carImageModel.Id, CarID = carImageModel.CarID, ImagePath = tempPath }));
+        }
+
+        private string CreateImage(CarImageModel carImageModel)
+        {
             string tempPath = "";
-            if (carImageModel.image != null && carImageModel.image.Length > 0)
+            if (carImageModel.Image != null && carImageModel.Image.Length > 0)
             {
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.image.FileName).ToLower();
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.Image.FileName).ToLower();
                 var filePath = Path.Combine(Path.GetTempPath(), fileName);
 
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    carImageModel.image.CopyTo(stream);
-                    tempPath = stream.Name;
-                    stream.Flush();
-                }
+                using var stream = System.IO.File.Create(filePath);
+                carImageModel.Image.CopyTo(stream);
+                tempPath = stream.Name;
+                stream.Flush();
             }
 
-            return Ok(_carImageService.Update(new CarImage { CarID = carImageModel.carID, ImagePath = tempPath }));
+            return tempPath;
         }
 
         [HttpPost("delete")]

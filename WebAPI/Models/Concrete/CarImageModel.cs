@@ -8,8 +8,9 @@ namespace WebAPI.Models.Concrete
 {
     public class CarImageModel : IModel
     {
-        public int carID { get; set; }
+        public int Id { get; set; }
+        public int CarID { get; set; }
         public string ImagePath { get; set; }
-        public IFormFile image { get; set; }
+        public IFormFile Image { get; set; }
     }
 }
