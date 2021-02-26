@@ -132,18 +132,19 @@ namespace Business.Concrete
 
         private void FolderControl()
         {
-            if (!Directory.Exists(FilePaths.ImageFolderPath))
+            if (!Directory.Exists(FilePaths.ImageDirectoryPath))
             {
-                System.IO.Directory.CreateDirectory(FilePaths.ImageFolderPath);
+                System.IO.Directory.CreateDirectory(FilePaths.ImageDirectoryPath);
             }
         }
 
         private void CreateImage(CarImage entity)
         {
             FolderControl();
-            string createPath = FilePaths.ImageFolderPath + Path.GetFileName(entity.ImagePath);
+            string createPath = FilePaths.ImageDirectoryPath + Path.GetFileName(entity.ImagePath);
             File.Copy(entity.ImagePath, createPath);
-            entity.ImagePath = createPath;
+            string dynamicPath = FilePaths.ImageDynamicDirectoryPath + Path.GetFileName(entity.ImagePath);
+            entity.ImagePath = dynamicPath;
             entity.Date = DateTime.Now;
         }
 

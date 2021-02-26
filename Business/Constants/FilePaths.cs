@@ -7,7 +7,8 @@ namespace Business.Constants
 {
     public static class FilePaths
     {
-        public static string ImageDefaultPath = AppDomain.CurrentDomain.BaseDirectory + "Images\\NotImage.jpg";
-        public static string ImageFolderPath = AppDomain.CurrentDomain.BaseDirectory + "Images\\";
+        public static string ImageDefaultPath = "\\Images\\NotImage.jpg";
+        public static string ImageDirectoryPath = AppDomain.CurrentDomain.BaseDirectory + "\\Images\\";
+        public static string ImageDynamicDirectoryPath = AppDomain.CurrentDomain.DynamicDirectory + "\\Images\\";
     }
 }
