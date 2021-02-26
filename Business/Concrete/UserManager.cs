@@ -62,7 +62,7 @@ namespace Business.Concrete
 
         public IDataResult<User> GetByEmail(string email)
         {
-            User user = _userDal.Get(p => p.Email == email);
+            User user = _userDal.Get(p => p.Email.ToLower() == email.ToLower());
             if (user == null)
             {
                 return new ErrorDataResult<User>(Messages.GetErrorUserMessage);
