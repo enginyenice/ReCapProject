@@ -21,7 +21,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        [ValidationAspect(typeof(BrandValidatior))]
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand entity)
         {
             _brandDal.Add(entity);
@@ -61,7 +61,7 @@ namespace Business.Concrete
             }
         }
 
-        [ValidationAspect(typeof(BrandValidatior))]
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Update(Brand entity)
         {
             _brandDal.Update(entity);
