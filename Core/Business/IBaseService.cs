@@ -5,7 +5,7 @@ using Core.Entities;
 using Core.Utilities.Results;
 using System.Collections.Generic;
 
-namespace Business.Abstract
+namespace Core.Business
 {
     public interface IBaseService<T> where T : IEntity
     {
