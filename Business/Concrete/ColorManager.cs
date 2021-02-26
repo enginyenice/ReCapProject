@@ -43,7 +43,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<Color>(color, Messages.GetErrorColorMessage);
+                return new SuccessDataResult<Color>(color, Messages.GetSuccessColorMessage);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new SuccessDataResult<List<Color>>(colors, Messages.GetErrorColorMessage);
+                return new SuccessDataResult<List<Color>>(colors, Messages.GetSuccessColorMessage);
             }
         }
 
