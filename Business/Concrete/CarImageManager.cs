@@ -41,8 +41,8 @@ namespace Business.Concrete
             {
                 return result;
             }
-            entity.Date = DateTime.Now;
             entity.ImagePath = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data;
+            entity.Date = DateTime.Now;
             _carImageDal.Add(entity);
             return new SuccessResult(Messages.AddCarImageMessage);
         }
@@ -76,10 +76,10 @@ namespace Business.Concrete
 
             if (file.Length > 0)
             {
-                _fileProcess.Delete(entity.ImagePath);
+                _fileProcess.Delete(_carImageDal.Get(p => p.Id == entity.Id).ImagePath);
                 entity.ImagePath = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data;
             }
-
+            entity.Date = DateTime.Now;
             _carImageDal.Update(entity);
             return new SuccessResult(Messages.EditCarImageMessage);
         }
