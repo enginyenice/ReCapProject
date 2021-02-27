@@ -24,32 +24,36 @@ namespace Core.Utilities.FileProcess
             return new SuccessResult();
         }
 
-        public IDataResult<string> Upload(string directoryName, IFormFile file)
+        public IDataResult<string> Upload(string directoryPath, IFormFile file)
         {
-            FolderControl(directoryName);
+            FolderControl(directoryPath);
             if (file != null && file.Length > 0)
             {
                 string fileName = Guid.NewGuid().ToString("D") + Path.GetExtension(file.FileName).ToLower();
-                var filePath = Path.Combine(environment.ContentRootPath, directoryName, fileName);
+                var filePath = Path.Combine(environment.ContentRootPath, directoryPath, fileName);
                 using (var stream = File.Create(filePath))
                 {
                     file.CopyTo(stream);
                     stream.Flush();
                 }
 
-                return new SuccessDataResult<string>(Path.Combine(directoryName, fileName), "");
+                return new SuccessDataResult<string>(Path.Combine(directoryPath, fileName), "");
             }
             return new ErrorDataResult<string>();
         }
 
-        private void FolderControl(string directoryName)
+        /// <summary>
+        /// FolderControl
+        /// </summary>
+        /// <param name="directoryPath">example 1: foldername <br></br> example 2: foldername/subfoldername/.... [unlimited]</param>
+        private void FolderControl(string directoryPath)
         {
-            string[] directories = directoryName.Split(' ');
+            string[] directories = directoryPath.Split('/');
             string checkPath = "";
             foreach (var directory in directories)
             {
                 checkPath += directory;
-                var directoryPath = Path.Combine(environment.ContentRootPath, checkPath);
+                var path = Path.Combine(environment.ContentRootPath, checkPath);
                 if (!Directory.Exists(checkPath))
                 {
                     Directory.CreateDirectory(checkPath);
