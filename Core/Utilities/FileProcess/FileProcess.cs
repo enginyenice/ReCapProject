@@ -44,10 +44,16 @@ namespace Core.Utilities.FileProcess
 
         private void FolderControl(string directoryName)
         {
-            var directoryPath = Path.Combine(environment.ContentRootPath, directoryName);
-            if (!Directory.Exists(directoryPath))
+            string[] directories = directoryName.Split(' ');
+            string checkPath = "";
+            foreach (var directory in directories)
             {
-                Directory.CreateDirectory(directoryPath);
+                checkPath += directory;
+                var directoryPath = Path.Combine(environment.ContentRootPath, checkPath);
+                if (!Directory.Exists(checkPath))
+                {
+                    Directory.CreateDirectory(checkPath);
+                }
             }
         }
     }
