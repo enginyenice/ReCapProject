@@ -8,6 +8,11 @@ namespace Entities.Concrete
 {
     public class CarImage : IEntity
     {
+        public CarImage()
+        {
+            Date = DateTime.Now;
+        }
+
         //Id,CarId,ImagePath,Date
         public int Id { get; set; }
 
