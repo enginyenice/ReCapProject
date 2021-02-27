@@ -6,9 +6,11 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
+using Core.Utilities.FileProcess;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,34 +21,42 @@ namespace Business.Concrete
     {
         private readonly ICarImageDal _carImageDal;
         private readonly ICarService _carService;
+        private readonly IFileProcess _fileProcess;
 
-        public CarImageManager(ICarImageDal carImageDal, ICarService carService)
+        public CarImageManager(ICarImageDal carImageDal, ICarService carService, IFileProcess fileProcess)
         {
             _carImageDal = carImageDal;
             _carService = carService;
+            _fileProcess = fileProcess;
         }
 
         [ValidationAspect(typeof(CarImageValidator))]
-        public IResult Add(CarImage entity)
+        public IResult Add(CarImage entity, IFormFile file)
         {
             var result = BusinessRules.Run(
+                CheckIfImageLength(file),
                 CheckCarImageCount(entity.CarID),
-                CheckIfFileExtension(entity.ImagePath));
+                CheckIfFileExtension(file));
             if (result != null)
             {
                 return result;
             }
+            var fileResult = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file);
 
-            CreateImage(entity);
+            if (!fileResult.Success)
+            {
+                return new ErrorResult(Messages.AddErrorCarMessage);
+            }
+
+            entity.ImagePath = fileResult.Data;
             _carImageDal.Add(entity);
-
             return new SuccessResult(Messages.AddCarImageMessage);
         }
 
         public IResult Delete(CarImage entity)
         {
             var imageData = _carImageDal.Get(p => p.Id == entity.Id);
-            File.Delete(imageData.ImagePath);
+            _fileProcess.Delete(imageData.ImagePath);
             _carImageDal.Delete(imageData);
             return new SuccessResult(Messages.DeleteCarImageMessage);
         }
@@ -61,18 +71,20 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
-        public IResult Update(CarImage entity)
+        public IResult Update(CarImage entity, IFormFile file)
         {
-            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID), CheckIfFileExtension(entity.ImagePath));
+            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID),
+                CheckIfFileExtension(file));
             if (result != null)
             {
                 return result;
             }
 
-            if (entity.ImagePath.Length > 0)
+            if (file.Length > 0)
             {
-                File.Delete(_carImageDal.Get(p => p.Id == entity.Id).ImagePath);
-                CreateImage(entity);
+                _fileProcess.Delete(entity.ImagePath);
+                var uploadResult = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file);
+                entity.ImagePath = uploadResult.Data;
             }
 
             _carImageDal.Update(entity);
@@ -90,7 +102,7 @@ namespace Business.Concrete
             var getAllbyCarIdResult = _carImageDal.GetAll(p => p.CarID == carId);
             if (getAllbyCarIdResult.Count == 0)
             {
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { new CarImage { ImagePath = FilePaths.ImageDefaultPath } });
+                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { new CarImage { ImagePath = DefaultNameOrPath.ImageDefaultPath } });
             }
 
             return new SuccessDataResult<List<CarImage>>(getAllbyCarIdResult);
@@ -107,6 +119,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        private IResult CheckIfImageLength(IFormFile file)
+        {
+            if (file.Length == 0)
+            {
+                return new ErrorResult(Messages.ImageNotFound);
+            }
+            return new SuccessResult();
+        }
+
         private IResult CheckIfCarId(int carId)
         {
             if (!_carService.Get(carId).Success)
@@ -116,10 +137,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>();
         }
 
-        private IResult CheckIfFileExtension(string path)
+        private IResult CheckIfFileExtension(IFormFile file)
         {
             string acceptableExtensions = ".png|.jpeg|.jpg";
-            if (String.Compare(Path.GetExtension(path).ToLower(), acceptableExtensions) == 0)
+            if (String.Compare(Path.GetExtension(file.Name), acceptableExtensions) == 0 || file.Length == -1)
             {
                 return new ErrorResult(Messages.IncorrectFileExtension);
             }
@@ -127,27 +148,5 @@ namespace Business.Concrete
         }
 
         #endregion Car Image Business Rules
-
-        #region Car Image Business Codes
-
-        private void FolderControl()
-        {
-            if (!Directory.Exists(FilePaths.ImageDirectoryPath))
-            {
-                System.IO.Directory.CreateDirectory(FilePaths.ImageDirectoryPath);
-            }
-        }
-
-        private void CreateImage(CarImage entity)
-        {
-            FolderControl();
-            string createPath = FilePaths.ImageDirectoryPath + Path.GetFileName(entity.ImagePath);
-            File.Copy(entity.ImagePath, createPath);
-            string dynamicPath = FilePaths.ImageDynamicDirectoryPath + Path.GetFileName(entity.ImagePath);
-            entity.ImagePath = dynamicPath;
-            entity.Date = DateTime.Now;
-        }
-
-        #endregion Car Image Business Codes
     }
 }

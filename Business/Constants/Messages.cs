@@ -68,5 +68,6 @@ namespace Business.Constants
         public static string DeleteCarImageMessage = "Araç resmi başarıyla silindi";
         public static string AboveImageAddingLimit = "Araç maksimum resim sayısına ulaştı. Resim ekleyemezsiniz";
         public static string IncorrectFileExtension = "Kabul edilmeyen dosya uzantısı";
+        public static string ImageNotFound = "Resim dosyası bulunamadı.";
     }
 }

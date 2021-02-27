@@ -3,10 +3,8 @@ enginyenice2626@gmail.com*/
 
 using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using WebAPI.Models.Concrete;
 
 namespace WebAPI.Controllers
 {
@@ -23,35 +21,28 @@ namespace WebAPI.Controllers
 
         [HttpPost("add")]
         [DisableRequestSizeLimit]
-        public IActionResult Add([FromForm] CarImageModel carImageModel)
+        public IActionResult Add([FromForm] CarImage carImage, [FromForm] IFormFile file)
         {
-            string tempPath = CreateImage(carImageModel);
-            return Ok(_carImageService.Add(new CarImage { CarID = carImageModel.CarID, ImagePath = tempPath }));
+            if (file == null)
+                file = new FormFile(null, -1, -1, "&&NotFound&&", "&&NotFound&&");
+
+            var result = _carImageService.Add(carImage, file);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpPost("update")]
         [DisableRequestSizeLimit]
-        public IActionResult Update([FromForm] CarImageModel carImageModel)
+        public IActionResult Update([FromForm] CarImage carImage, [FromForm] IFormFile file)
         {
-            string tempPath = CreateImage(carImageModel);
-            return Ok(_carImageService.Update(new CarImage { Id = carImageModel.Id, CarID = carImageModel.CarID, ImagePath = tempPath }));
-        }
+            if (file == null)
+                file = new FormFile(null, -1, -1, "&&NotFound&&", "&&NotFound&&");
 
-        private string CreateImage(CarImageModel carImageModel)
-        {
-            string tempPath = "";
-            if (carImageModel.Image != null && carImageModel.Image.Length > 0)
-            {
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(carImageModel.Image.FileName).ToLower();
-                var filePath = Path.Combine(Path.GetTempPath(), fileName);
-
-                using var stream = System.IO.File.Create(filePath);
-                carImageModel.Image.CopyTo(stream);
-                tempPath = stream.Name;
-                stream.Flush();
-            }
-
-            return tempPath;
+            var result = _carImageService.Update(carImage, file);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result.Message);
         }
 
         [HttpPost("delete")]

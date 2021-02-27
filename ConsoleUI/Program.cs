@@ -25,9 +25,10 @@ namespace ConsoleUI
             //CreateCustomer(); // Müşteri oluşturur.
             //RentalCarAdd();
             //RentalDeliverCar();
-            RentalDetails();
+            //RentalDetails();
         }
 
+        /*
         private static void RentalDetails()
         {
             rentalManager = new RentalManager(new EfRentalDal());
@@ -177,5 +178,6 @@ namespace ConsoleUI
                 Console.WriteLine(cars.Message);
             }
         }
+        */
     }
 }

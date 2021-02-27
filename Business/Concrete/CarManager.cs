@@ -74,6 +74,11 @@ namespace Business.Concrete
             }
         }
 
+        public IDataResult<List<Car>> GetCarsByCarId(int brandId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
             List<Car> cars = _carDal.GetAll(p => p.ColorId == colorId);

@@ -1,12 +1,22 @@
 ﻿/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
-using Core.Business;
+using Core.Utilities.Results;
 using Entities.Concrete;
+using System.Collections.Generic;
 
 namespace Business.Abstract
 {
-    public interface IColorService : IBaseService<Color>
+    public interface IColorService
     {
+        IDataResult<List<Color>> GetAll();
+
+        IDataResult<Color> Get(int id);
+
+        IResult Add(Color entity);
+
+        IResult Update(Color entity);
+
+        IResult Delete(Color entity);
     }
 }

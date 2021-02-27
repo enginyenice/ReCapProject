@@ -1,7 +1,6 @@
 ﻿/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
-using Core.Business;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Dtos;
@@ -9,8 +8,18 @@ using System.Collections.Generic;
 
 namespace Business.Abstract
 {
-    public interface IRentalService : IBaseService<Rental>
+    public interface IRentalService
     {
+        IDataResult<List<Rental>> GetAll();
+
+        IDataResult<Rental> Get(int id);
+
+        IResult Add(Rental entity);
+
+        IResult Update(Rental entity);
+
+        IResult Delete(Rental entity);
+
         /// <summary>
         /// Aracı teslim al.
         /// </summary>
