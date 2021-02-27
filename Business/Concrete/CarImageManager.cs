@@ -41,7 +41,7 @@ namespace Business.Concrete
             {
                 return result;
             }
-
+            entity.Date = DateTime.Now;
             entity.ImagePath = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data;
             _carImageDal.Add(entity);
             return new SuccessResult(Messages.AddCarImageMessage);
@@ -114,7 +114,7 @@ namespace Business.Concrete
 
         private IResult CheckIfImageLength(IFormFile file)
         {
-            if (file.Length == 0)
+            if (file.Length <= 0)
             {
                 return new ErrorResult(Messages.ImageNotFound);
             }

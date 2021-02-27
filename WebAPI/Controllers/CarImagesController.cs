@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
             var result = _carImageService.Update(carImage, file);
             if (result.Success)
                 return Ok(result);
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
         [HttpPost("delete")]
