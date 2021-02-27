@@ -36,7 +36,8 @@ namespace Business.Concrete
             var result = BusinessRules.Run(
                 CheckIfImageLength(file),
                 CheckCarImageCount(entity.CarID),
-                CheckIfFileExtension(file));
+                CheckIfFileExtension(file),
+                CheckIfCarId(entity.CarID));
             if (result != null)
             {
                 return result;
@@ -67,8 +68,11 @@ namespace Business.Concrete
 
         public IResult Update(CarImage entity, IFormFile file)
         {
-            var result = BusinessRules.Run(CheckCarImageCount(entity.CarID),
-                CheckIfFileExtension(file));
+            var result = BusinessRules.Run(
+                CheckCarImageCount(entity.CarID),
+                CheckIfFileExtension(file),
+                CheckIfCarId(entity.CarID)
+                );
             if (result != null)
             {
                 return result;
