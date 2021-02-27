@@ -41,14 +41,8 @@ namespace Business.Concrete
             {
                 return result;
             }
-            var fileResult = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file);
 
-            if (!fileResult.Success)
-            {
-                return new ErrorResult(Messages.AddErrorCarMessage);
-            }
-
-            entity.ImagePath = fileResult.Data;
+            entity.ImagePath = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data;
             _carImageDal.Add(entity);
             return new SuccessResult(Messages.AddCarImageMessage);
         }
@@ -83,8 +77,7 @@ namespace Business.Concrete
             if (file.Length > 0)
             {
                 _fileProcess.Delete(entity.ImagePath);
-                var uploadResult = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file);
-                entity.ImagePath = uploadResult.Data;
+                entity.ImagePath = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data;
             }
 
             _carImageDal.Update(entity);
