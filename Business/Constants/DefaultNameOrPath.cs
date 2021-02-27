@@ -5,7 +5,7 @@ namespace Business.Constants
 {
     public static class DefaultNameOrPath
     {
-        public static string WWWROOT = "wwwrooot/";
+        public static string WWWROOT = "wwwroot/";
         public static string ImageDirectory = WWWROOT + "images"; // Klasör adı
         public static string FileDirectory = WWWROOT + "/files"; // Klasör Adı
         public static string TestDirectory = WWWROOT + "/images/sub1/sub2/sub3/sub4/sub5/sub6/sub7/sub8/sub9"; // Test Path adı
