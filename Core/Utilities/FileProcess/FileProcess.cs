@@ -52,7 +52,7 @@ namespace Core.Utilities.FileProcess
             string checkPath = "";
             foreach (var directory in directories)
             {
-                checkPath += directory;
+                checkPath += directory + "\\";
                 var path = Path.Combine(environment.ContentRootPath, checkPath);
                 if (!Directory.Exists(checkPath))
                 {

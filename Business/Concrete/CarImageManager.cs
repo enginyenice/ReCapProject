@@ -99,7 +99,7 @@ namespace Business.Concrete
             var getAllbyCarIdResult = _carImageDal.GetAll(p => p.CarID == carId);
             if (getAllbyCarIdResult.Count == 0)
             {
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { new CarImage { ImagePath = DefaultNameOrPath.ImageDefaultPath } });
+                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { new CarImage { ImagePath = DefaultNameOrPath.NoImagePath } });
             }
 
             return new SuccessDataResult<List<CarImage>>(getAllbyCarIdResult);
