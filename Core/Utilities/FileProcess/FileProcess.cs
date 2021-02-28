@@ -48,8 +48,10 @@ namespace Core.Utilities.FileProcess
         /// <param name="directoryPath">example 1: foldername <br></br> example 2: foldername/subfoldername/.... [unlimited]</param>
         private void FolderControl(string directoryPath)
         {
+            WwwRootControl();
             string[] directories = directoryPath.Split('/');
             string checkPath = "";
+
             foreach (var directory in directories)
             {
                 checkPath += directory + "\\";
@@ -58,6 +60,14 @@ namespace Core.Utilities.FileProcess
                 {
                     Directory.CreateDirectory(path);
                 }
+            }
+        }
+
+        private void WwwRootControl()
+        {
+            if (!Directory.Exists(environment.WebRootPath))
+            {
+                Directory.CreateDirectory(environment.WebRootPath);
             }
         }
     }
