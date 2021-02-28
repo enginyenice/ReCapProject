@@ -1,3 +1,9 @@
+# 27.02.2021 Ödev
+
+RentACar projenize JWT entegrasyonu yapınız.
+
+GitHub adresinizi paylaşınız.
+
 ## 24.02.2021 Ödev 1
 Artık araştırma yapıp, yeni işlemleri projeye ekleyebilmemiz gerekiyor.
 
