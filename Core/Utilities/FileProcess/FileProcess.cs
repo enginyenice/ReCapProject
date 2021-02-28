@@ -30,7 +30,7 @@ namespace Core.Utilities.FileProcess
             if (file != null && file.Length > 0)
             {
                 string fileName = Guid.NewGuid().ToString("D") + Path.GetExtension(file.FileName).ToLower();
-                var filePath = Path.Combine(environment.ContentRootPath, directoryPath, fileName);
+                var filePath = Path.Combine(environment.WebRootPath, directoryPath, fileName);
                 using (var stream = File.Create(filePath))
                 {
                     file.CopyTo(stream);
@@ -53,10 +53,10 @@ namespace Core.Utilities.FileProcess
             foreach (var directory in directories)
             {
                 checkPath += directory + "\\";
-                var path = Path.Combine(environment.ContentRootPath, checkPath);
+                var path = Path.Combine(environment.WebRootPath, checkPath);
                 if (!Directory.Exists(checkPath))
                 {
-                    Directory.CreateDirectory(checkPath);
+                    Directory.CreateDirectory(path);
                 }
             }
         }
