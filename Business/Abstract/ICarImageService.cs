@@ -4,7 +4,6 @@ enginyenice2626@gmail.com*/
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Dtos;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
 namespace Business.Abstract

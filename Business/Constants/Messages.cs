@@ -70,5 +70,13 @@ namespace Business.Constants
         public static string IncorrectFileExtension = "Kabul edilmeyen dosya uzantısı";
         public static string ImageNotFound = "Resim dosyası bulunamadı.";
         public static string CarImageNotFound = "Değiştirilmek istenen resim bulunamadı.";
+
+        public static string AuthorizationDenied = "Yetkilendirme reddedildi";
+        public static string Registered = "Başarıyla kayıt olundu";
+        public static string UserNotFound = "Kullanıcı bulunamadı";
+        public static string WrongPassword = "Yanlış parola";
+        public static string SuccessfulLogin = "Başarılı giriş";
+        public static string UserAvailable = "Kullanıcı mevcut";
+        public static string TokenCreated = "Token oluşturuldu.";
     }
 }

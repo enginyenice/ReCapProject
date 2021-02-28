@@ -3,9 +3,6 @@ enginyenice2626@gmail.com*/
 
 using Entities.Dtos;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Business.ValidationRules.FluentValidation
 {

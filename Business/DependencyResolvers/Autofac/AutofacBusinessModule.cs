@@ -8,6 +8,7 @@ using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.FileProcess;
 using Core.Utilities.Interceptors;
+using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 
@@ -40,6 +41,11 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<EfCarImageDal>().As<ICarImageDal>();
             //FileProcess
             builder.RegisterType<FileProcess>().As<IFileProcess>();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
+            //builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
 
             //Aspects Load
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

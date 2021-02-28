@@ -4,7 +4,6 @@ enginyenice2626@gmail.com*/
 using Business.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers

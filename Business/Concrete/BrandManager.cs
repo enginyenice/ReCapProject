@@ -2,6 +2,7 @@
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -21,6 +22,7 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+        [SecuredOperation("brand")]
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand entity)
         {
@@ -48,6 +50,7 @@ namespace Business.Concrete
             }
         }
 
+        [SecuredOperation("brand")]
         public IDataResult<List<Brand>> GetAll()
         {
             List<Brand> brands = _brandDal.GetAll();

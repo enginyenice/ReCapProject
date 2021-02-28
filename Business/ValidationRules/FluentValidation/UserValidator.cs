@@ -1,7 +1,7 @@
 ﻿/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
-using Entities.Concrete;
+using Core.Entities.Concrete;
 using FluentValidation;
 
 namespace Business.ValidationRules.FluentValidation
@@ -14,8 +14,6 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(user => user.LastName).NotEmpty();
             RuleFor(user => user.Email).NotEmpty();
             RuleFor(user => user.Email).EmailAddress();
-            RuleFor(user => user.Password).NotEmpty();
-            RuleFor(user => user.Password).MinimumLength(6);
         }
     }
 }
