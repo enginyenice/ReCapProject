@@ -46,7 +46,7 @@ namespace Business.Concrete
                 _carImageDal.Add(new CarImage
                 {
                     CarID = carImagesOperationDto.CarId,
-                    ImagePath = FileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data
+                    ImagePath = FileProcess.Upload(DefaultNameOrPath.TestDirectory, file).Data
                 });
             }
             return new SuccessResult(Messages.AddCarImageMessage);
@@ -108,7 +108,13 @@ namespace Business.Concrete
             var getAllbyCarIdResult = _carImageDal.GetAll(p => p.CarID == carId);
             if (getAllbyCarIdResult.Count == 0)
             {
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { new CarImage { ImagePath = DefaultNameOrPath.NoImagePath } });
+                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { new CarImage
+                {
+                    Id = -1,
+                    CarID = carId,
+                    Date = DateTime.MinValue,
+                    ImagePath = DefaultNameOrPath.NoImagePath
+                } });
             }
 
             return new SuccessDataResult<List<CarImage>>(getAllbyCarIdResult);

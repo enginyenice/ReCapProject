@@ -26,7 +26,7 @@ namespace Core.Utilities.Helpers
         }
 
         
-
+//image
         public static IDataResult<string> Upload(string directoryPath, IFormFile file)
         {
             FolderControl(directoryPath);
@@ -40,7 +40,7 @@ namespace Core.Utilities.Helpers
                     stream.Flush();
                 }
 
-                return new SuccessDataResult<string>(Path.Combine(directoryPath, fileName), "");
+                return new SuccessDataResult<string>(data:Path.Combine(directoryPath, fileName));
             }
             return new ErrorDataResult<string>();
         }
@@ -51,17 +51,9 @@ namespace Core.Utilities.Helpers
         /// <param name="directoryPath">example 1: foldername <br></br> example 2: foldername/subfoldername/.... [unlimited]</param>
         private static void FolderControl(string directoryPath)
         {
-            string[] directories = directoryPath.Split('/');
-            string checkPath = "";
-
-            foreach (var directory in directories)
+            if (!Directory.Exists(Path.Combine(DefaultNameOrPath.FullPath,directoryPath)))
             {
-                checkPath += directory + "\\";
-                var path = Path.Combine(DefaultNameOrPath.FullPath, checkPath);
-                if (!Directory.Exists(checkPath))
-                {
-                    Directory.CreateDirectory(path);
-                }
+                Directory.CreateDirectory(Path.Combine(DefaultNameOrPath.FullPath,directoryPath));
             }
         }
     }
