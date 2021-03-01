@@ -2,7 +2,7 @@
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
-using Business.Constants;
+using Core.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;

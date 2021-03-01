@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Castle.DynamicProxy;
 using Core.Extensions;
-using Business.Constants;
+using Core.Constants;
 using System;
 
 namespace Business.BusinessAspects.Autofac

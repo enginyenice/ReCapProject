@@ -2,11 +2,10 @@
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
-using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
-using Core.Utilities.FileProcess;
+using Core.Utilities.Helpers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -15,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Core.Constants;
 
 namespace Business.Concrete
 {

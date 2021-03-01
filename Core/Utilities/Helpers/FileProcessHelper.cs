@@ -2,12 +2,13 @@
 enginyenice2626@gmail.com*/
 
 using Core.Utilities.Results;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using Core.Constants;
 
-namespace Core.Utilities.FileProcess
+namespace Core.Utilities.Helpers
 {
     public class FileProcess
     {
@@ -15,16 +16,16 @@ namespace Core.Utilities.FileProcess
         {
             try
             {
-                File.Delete(Path.Combine(fullPath, filePath));
+                File.Delete(Path.Combine(DefaultNameOrPath.FullPath, filePath));
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new ExecutionEngineException("Dosya bulunamadı.");
+                throw new ExternalException("Dosya bulunamadı.");
             }
             return new SuccessResult();
         }
 
-        public static string fullPath = Path.Combine(Environment.CurrentDirectory, "wwwroot");
+        
 
         public static IDataResult<string> Upload(string directoryPath, IFormFile file)
         {
@@ -32,7 +33,7 @@ namespace Core.Utilities.FileProcess
             if (file != null && file.Length > 0)
             {
                 string fileName = Guid.NewGuid().ToString("D") + Path.GetExtension(file.FileName).ToLower();
-                var filePath = Path.Combine(fullPath, directoryPath, fileName);
+                var filePath = Path.Combine(DefaultNameOrPath.FullPath, directoryPath, fileName);
                 using (var stream = File.Create(filePath))
                 {
                     file.CopyTo(stream);
@@ -56,7 +57,7 @@ namespace Core.Utilities.FileProcess
             foreach (var directory in directories)
             {
                 checkPath += directory + "\\";
-                var path = Path.Combine(fullPath, checkPath);
+                var path = Path.Combine(DefaultNameOrPath.FullPath, checkPath);
                 if (!Directory.Exists(checkPath))
                 {
                     Directory.CreateDirectory(path);
