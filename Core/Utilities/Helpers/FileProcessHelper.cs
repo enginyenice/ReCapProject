@@ -9,28 +9,30 @@ using System.IO;
 
 namespace Core.Utilities.FileProcess
 {
-    public class FileProcess : IFileProcess
+    public class FileProcess
     {
-        private readonly IHostingEnvironment environment;
-
-        public FileProcess(IHostingEnvironment environment)
+        public static IResult Delete(string filePath)
         {
-            this.environment = environment;
-        }
-
-        public IResult Delete(string filePath)
-        {
-            File.Delete(filePath);
+            try
+            {
+                File.Delete(Path.Combine(fullPath, filePath));
+            }
+            catch (Exception e)
+            {
+                throw new ExecutionEngineException("Dosya bulunamadı.");
+            }
             return new SuccessResult();
         }
 
-        public IDataResult<string> Upload(string directoryPath, IFormFile file)
+        public static string fullPath = Path.Combine(Environment.CurrentDirectory, "wwwroot");
+
+        public static IDataResult<string> Upload(string directoryPath, IFormFile file)
         {
             FolderControl(directoryPath);
             if (file != null && file.Length > 0)
             {
                 string fileName = Guid.NewGuid().ToString("D") + Path.GetExtension(file.FileName).ToLower();
-                var filePath = Path.Combine(environment.WebRootPath, directoryPath, fileName);
+                var filePath = Path.Combine(fullPath, directoryPath, fileName);
                 using (var stream = File.Create(filePath))
                 {
                     file.CopyTo(stream);
@@ -46,7 +48,7 @@ namespace Core.Utilities.FileProcess
         /// FolderControl
         /// </summary>
         /// <param name="directoryPath">example 1: foldername <br></br> example 2: foldername/subfoldername/.... [unlimited]</param>
-        private void FolderControl(string directoryPath)
+        private static void FolderControl(string directoryPath)
         {
             string[] directories = directoryPath.Split('/');
             string checkPath = "";
@@ -54,7 +56,7 @@ namespace Core.Utilities.FileProcess
             foreach (var directory in directories)
             {
                 checkPath += directory + "\\";
-                var path = Path.Combine(environment.WebRootPath, checkPath);
+                var path = Path.Combine(fullPath, checkPath);
                 if (!Directory.Exists(checkPath))
                 {
                     Directory.CreateDirectory(path);

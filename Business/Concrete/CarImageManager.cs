@@ -22,13 +22,11 @@ namespace Business.Concrete
     {
         private readonly ICarImageDal _carImageDal;
         private readonly ICarService _carService;
-        private readonly IFileProcess _fileProcess;
 
-        public CarImageManager(ICarImageDal carImageDal, ICarService carService, IFileProcess fileProcess)
+        public CarImageManager(ICarImageDal carImageDal, ICarService carService)
         {
             _carImageDal = carImageDal;
             _carService = carService;
-            _fileProcess = fileProcess;
         }
 
         [ValidationAspect(typeof(CarImagesOperationDtoValidator))]
@@ -48,7 +46,7 @@ namespace Business.Concrete
                 _carImageDal.Add(new CarImage
                 {
                     CarID = carImagesOperationDto.CarId,
-                    ImagePath = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data
+                    ImagePath = FileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data
                 });
             }
             return new SuccessResult(Messages.AddCarImageMessage);
@@ -57,7 +55,7 @@ namespace Business.Concrete
         public IResult Delete(CarImage entity)
         {
             var imageData = _carImageDal.Get(p => p.Id == entity.Id);
-            _fileProcess.Delete(imageData.ImagePath);
+            FileProcess.Delete(imageData.ImagePath);
             _carImageDal.Delete(imageData);
             return new SuccessResult(Messages.DeleteCarImageMessage);
         }
@@ -88,12 +86,12 @@ namespace Business.Concrete
                     return result;
                 }
 
-                _fileProcess.Delete(_carImageDal.Get(p => p.Id == carImagesOperationDto.Id).ImagePath);
+                FileProcess.Delete(_carImageDal.Get(p => p.Id == carImagesOperationDto.Id).ImagePath);
                 _carImageDal.Update(new CarImage
                 {
                     Id = carImagesOperationDto.Id,
                     CarID = carImagesOperationDto.CarId,
-                    ImagePath = _fileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data
+                    ImagePath = FileProcess.Upload(DefaultNameOrPath.ImageDirectory, file).Data
                 });
             }
             return new SuccessResult(Messages.EditCarImageMessage);
