@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Core.Constants;
+using static System.String;
 
 namespace Business.Concrete
 {
@@ -160,8 +161,9 @@ namespace Business.Concrete
 
         private IResult CheckIfFileExtension(IFormFile file)
         {
+            
             string acceptableExtensions = ".png|.jpeg|.jpg";
-            if (String.Compare(Path.GetExtension(file.Name), acceptableExtensions) == 0)
+            if (Compare(Path.GetExtension(file.Name), acceptableExtensions) == 0)
             {
                 return new ErrorResult(Messages.IncorrectFileExtension);
             }
