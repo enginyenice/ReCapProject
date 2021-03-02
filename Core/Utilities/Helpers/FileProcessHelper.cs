@@ -10,8 +10,17 @@ using Core.Constants;
 
 namespace Core.Utilities.Helpers
 {
-    public class FileProcess
+    public class FileProcessHelper
     {
+        /// <summary>
+        /// Delete File
+        /// </summary>
+        /// <param name="filePath">The path to the file to be deleted.
+        /// Example: folderName/file.png
+        /// Example: folderName/subFolderName1/subFolderName2/[unlimited]/file.png
+        /// </param>
+        /// <returns></returns>
+        /// <exception cref="ExternalException"></exception>
         public static IResult Delete(string filePath)
         {
             try
@@ -24,9 +33,19 @@ namespace Core.Utilities.Helpers
             }
             return new SuccessResult();
         }
-
-        
-//image
+        /// <summary>
+        /// Upload file
+        /// </summary>
+        /// <param name="directoryPath">The folder to be saved.
+        /// Example: folderName
+        ///Example: folderName/subFolderName1/subFolderName2/.... [unlimeted]
+        /// </param>
+        /// <param name="file">IFromFile</param>
+        /// <returns>
+        /// IDataResult.Data => The path to the uploaded file.
+        /// IDataResult.Success => Registration status (True or False)
+        /// IDataResult.Message => Returning message
+        /// </returns>
         public static IDataResult<string> Upload(string directoryPath, IFormFile file)
         {
             FolderControl(directoryPath);
@@ -44,7 +63,6 @@ namespace Core.Utilities.Helpers
             }
             return new ErrorDataResult<string>();
         }
-
         /// <summary>
         /// FolderControl
         /// </summary>
