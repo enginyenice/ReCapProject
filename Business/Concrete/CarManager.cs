@@ -98,7 +98,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetCarsByCarId(int brandId)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == brandId));
         }
 
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
