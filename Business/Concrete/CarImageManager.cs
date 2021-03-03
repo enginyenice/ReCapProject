@@ -10,12 +10,9 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Dtos;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Core.Constants;
-using static System.String;
 
 namespace Business.Concrete
 {
@@ -33,23 +30,23 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImagesOperationDtoValidator))]
         public IResult Add(CarImagesOperationDto carImagesOperationDto)
         {
+            var result = BusinessRules.Run(
+                CheckCarImageCount(carImagesOperationDto.CarId),
+                CheckIfCarId(carImagesOperationDto.CarId));
+            if (result != null)
+            {
+                return result;
+            }
+
             foreach (var file in carImagesOperationDto.Images)
             {
-                var result = BusinessRules.Run(
-               CheckIfImageLength(file),
-               CheckCarImageCount(carImagesOperationDto.CarId),
-               CheckIfFileExtension(file),
-               CheckIfCarId(carImagesOperationDto.CarId));
-                if (result != null)
-                {
-                    return result;
-                }
                 _carImageDal.Add(new CarImage
                 {
                     CarID = carImagesOperationDto.CarId,
                     ImagePath = FileProcessHelper.Upload(DefaultNameOrPath.ImageDirectory, file).Data
                 });
             }
+
             return new SuccessResult(Messages.AddCarImageMessage);
         }
 
@@ -77,11 +74,10 @@ namespace Business.Concrete
             foreach (var file in carImagesOperationDto.Images)
             {
                 var result = BusinessRules.Run(
-               CheckIfCarImagesId(carImagesOperationDto.Id),
-               CheckCarImageCount(carImagesOperationDto.CarId),
-               CheckIfFileExtension(file),
-               CheckIfCarId(carImagesOperationDto.CarId)
-               );
+                    CheckIfCarImagesId(carImagesOperationDto.Id),
+                    CheckCarImageCount(carImagesOperationDto.CarId),
+                    CheckIfCarId(carImagesOperationDto.CarId)
+                );
                 if (result != null)
                 {
                     return result;
@@ -95,6 +91,7 @@ namespace Business.Concrete
                     ImagePath = FileProcessHelper.Upload(DefaultNameOrPath.ImageDirectory, file).Data
                 });
             }
+
             return new SuccessResult(Messages.EditCarImageMessage);
         }
 
@@ -103,19 +100,22 @@ namespace Business.Concrete
             var result = BusinessRules.Run(CheckIfCarId(carId));
             if (result != null)
             {
-                return (IDataResult<List<CarImage>>)result;
+                return (IDataResult<List<CarImage>>) result;
             }
 
             var getAllbyCarIdResult = _carImageDal.GetAll(p => p.CarID == carId);
             if (getAllbyCarIdResult.Count == 0)
             {
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage> { new CarImage
+                return new SuccessDataResult<List<CarImage>>(new List<CarImage>
                 {
-                    Id = -1,
-                    CarID = carId,
-                    Date = DateTime.MinValue,
-                    ImagePath = DefaultNameOrPath.NoImagePath
-                } });
+                    new CarImage
+                    {
+                        Id = -1,
+                        CarID = carId,
+                        Date = DateTime.MinValue,
+                        ImagePath = DefaultNameOrPath.NoImagePath
+                    }
+                });
             }
 
             return new SuccessDataResult<List<CarImage>>(getAllbyCarIdResult);
@@ -129,6 +129,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.AboveImageAddingLimit);
             }
+
             return new SuccessResult();
         }
 
@@ -138,15 +139,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult(Messages.CarImageNotFound);
             }
-            return new SuccessResult();
-        }
 
-        private IResult CheckIfImageLength(IFormFile file)
-        {
-            if (file.Length <= 0)
-            {
-                return new ErrorResult(Messages.ImageNotFound);
-            }
             return new SuccessResult();
         }
 
@@ -156,18 +149,8 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<CarImage>>(Messages.GetErrorCarMessage);
             }
-            return new SuccessDataResult<List<CarImage>>();
-        }
 
-        private IResult CheckIfFileExtension(IFormFile file)
-        {
-            
-            string acceptableExtensions = ".png|.jpeg|.jpg";
-            if (Compare(Path.GetExtension(file.Name), acceptableExtensions) == 0)
-            {
-                return new ErrorResult(Messages.IncorrectFileExtension);
-            }
-            return new SuccessResult();
+            return new SuccessDataResult<List<CarImage>>();
         }
 
         #endregion Car Image Business Rules

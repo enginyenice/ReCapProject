@@ -10,7 +10,7 @@ using Core.Constants;
 
 namespace Core.Utilities.Helpers
 {
-    public class FileProcessHelper
+    public static class FileProcessHelper
     {
         /// <summary>
         /// Delete File
@@ -29,7 +29,7 @@ namespace Core.Utilities.Helpers
             }
             catch (Exception)
             {
-                throw new ExternalException("Dosya bulunamadı.");
+                throw new ExternalException(Messages.ImageNotFound);
             }
             return new SuccessResult();
         }
