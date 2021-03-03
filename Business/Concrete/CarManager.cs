@@ -1,8 +1,9 @@
 ﻿/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
+using System;
 using Business.Abstract;
-using Core.Constants;
+using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
@@ -10,6 +11,9 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System.Collections.Generic;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 
 namespace Business.Concrete
 {
@@ -21,10 +25,27 @@ namespace Business.Concrete
         {
             _carDal = carDal;
         }
-
+        [CacheRemoveAspect("Get")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car entity)
         {
+            _carDal.Add(entity);
+            return new SuccessResult(Messages.AddCarMessage);
+        }
+
+        [CacheRemoveAspect("Get")]
+        [TransactionAspect]
+        [PerformanceAspect(0)]
+        public IResult AddTransactionTest(Car entity)
+        {
+            _carDal.Add(entity);
+            if (entity.BrandId == 1002)
+            {
+                throw new Exception("");
+            }
+
+            entity.Id = 0;
+            entity.Description = "TransactionTest" + entity.Description;
             _carDal.Add(entity);
             return new SuccessResult(Messages.AddCarMessage);
         }
@@ -48,6 +69,7 @@ namespace Business.Concrete
             }
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             List<Car> cars = _carDal.GetAll();

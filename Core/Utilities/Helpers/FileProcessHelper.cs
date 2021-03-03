@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using Core.Constants;
 
 namespace Core.Utilities.Helpers
 {
     public static class FileProcessHelper
     {
+        private static  string fullPath= Path.Combine(Environment.CurrentDirectory, "wwwroot");
         /// <summary>
         /// Delete File
         /// </summary>
@@ -23,14 +23,7 @@ namespace Core.Utilities.Helpers
         /// <exception cref="ExternalException"></exception>
         public static IResult Delete(string filePath)
         {
-            try
-            {
-                File.Delete(Path.Combine(DefaultNameOrPath.FullPath, filePath));
-            }
-            catch (Exception)
-            {
-                throw new ExternalException(Messages.ImageNotFound);
-            }
+            File.Delete(Path.Combine(fullPath, filePath));
             return new SuccessResult();
         }
         /// <summary>
@@ -52,7 +45,7 @@ namespace Core.Utilities.Helpers
             if (file != null && file.Length > 0)
             {
                 string fileName = Guid.NewGuid().ToString("D") + Path.GetExtension(file.FileName).ToLower();
-                var filePath = Path.Combine(DefaultNameOrPath.FullPath, directoryPath, fileName);
+                var filePath = Path.Combine(fullPath, directoryPath, fileName);
                 using (var stream = File.Create(filePath))
                 {
                     file.CopyTo(stream);
@@ -69,9 +62,9 @@ namespace Core.Utilities.Helpers
         /// <param name="directoryPath">example 1: foldername <br></br> example 2: foldername/subfoldername/.... [unlimited]</param>
         private static void FolderControl(string directoryPath)
         {
-            if (!Directory.Exists(Path.Combine(DefaultNameOrPath.FullPath,directoryPath)))
+            if (!Directory.Exists(Path.Combine(fullPath,directoryPath)))
             {
-                Directory.CreateDirectory(Path.Combine(DefaultNameOrPath.FullPath,directoryPath));
+                Directory.CreateDirectory(Path.Combine(fullPath,directoryPath));
             }
         }
     }

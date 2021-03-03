@@ -1,7 +1,7 @@
 ﻿/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
-namespace Core.Constants
+namespace Business.Constants
 {
     public static class Messages
     {

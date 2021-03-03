@@ -15,6 +15,8 @@ namespace Business.Abstract
         IDataResult<Car> Get(int id);
 
         IResult Add(Car entity);
+        
+        IResult AddTransactionTest(Car entity);
 
         IResult Update(Car entity);
 

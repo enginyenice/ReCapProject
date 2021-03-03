@@ -7,14 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Castle.DynamicProxy;
 using Core.Extensions;
-using Core.Constants;
 using System;
+using Business.Constants;
 
 namespace Business.BusinessAspects.Autofac
 {
     public class SecuredOperation : MethodInterception
     {
-        public string[] _roles;
+        private readonly string[] _roles;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public SecuredOperation(string roles)
