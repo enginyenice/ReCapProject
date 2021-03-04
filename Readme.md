@@ -1,3 +1,10 @@
+## 03.03.2021 Ödev 1
+RentACar projenize;
+
+Cache, Transaction ve Performance aspectlerini ekleyiniz.
+
+Github adresinizi paylaşınız.
+
 ## 27.02.2021 Ödev
 
 RentACar projenize JWT entegrasyonu yapınız.
