@@ -1,4 +1,7 @@
-﻿/*Created By Engin Yenice
+﻿//Created By Engin Yenice
+//enginyenice2626@gmail.com
+
+/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
@@ -8,6 +11,7 @@ using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 
@@ -66,6 +70,11 @@ namespace Business.Concrete
             {
                 return new SuccessDataResult<List<Customer>>(customers, Messages.GetSuccessCustomerMessage);
             }
+        }
+
+        public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()
+        {
+            return new SuccessDataResult<List<CustomerDetailDto>>(_customerDal.GetCustomerDetailDto(), Messages.GetSuccessCustomerMessage);
         }
 
         [ValidationAspect(typeof(CustomerValidator))]

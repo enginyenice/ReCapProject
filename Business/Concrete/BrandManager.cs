@@ -1,4 +1,7 @@
-﻿/*Created By Engin Yenice
+﻿//Created By Engin Yenice
+//enginyenice2626@gmail.com
+
+/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
@@ -50,7 +53,7 @@ namespace Business.Concrete
             }
         }
 
-        [SecuredOperation("brand")]
+        //[SecuredOperation("brand")]
         public IDataResult<List<Brand>> GetAll()
         {
             List<Brand> brands = _brandDal.GetAll();

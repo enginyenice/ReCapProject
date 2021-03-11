@@ -1,4 +1,7 @@
-﻿/*Created By Engin Yenice
+﻿//Created By Engin Yenice
+//enginyenice2626@gmail.com
+
+/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
@@ -28,6 +31,16 @@ namespace WebAPI.Controllers
                 return BadRequest(result);
         }
 
+        [HttpGet("getcarsdetail")]
+        public IActionResult GetCarsDetail()
+        {
+            var result = _carService.GetCarsDetail();
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -47,7 +60,7 @@ namespace WebAPI.Controllers
             else
                 return BadRequest(result);
         }
-        
+
         [HttpPost("addtransactiontest")]
         public IActionResult AddTransactionTest(Car car)
         {

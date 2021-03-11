@@ -1,4 +1,7 @@
-﻿/*Created By Engin Yenice
+﻿//Created By Engin Yenice
+//enginyenice2626@gmail.com
+
+/*Created By Engin Yenice
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
@@ -31,6 +34,15 @@ namespace WebAPI.Controllers
         public ActionResult GetAll()
         {
             var result = _customerService.GetAll();
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcustomerdetails")]
+        public ActionResult GetCustomerDetails()
+        {
+            var result = _customerService.GetCustomerDetails();
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);
