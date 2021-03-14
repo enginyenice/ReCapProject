@@ -14,15 +14,18 @@ using System.Collections.Generic;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Transaction;
+using Entities.Dtos;
 
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
         private readonly ICarDal _carDal;
+        private readonly ICarImageService _carImageService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal,ICarImageService carImageService)
         {
+            _carImageService = carImageService;
             _carDal = carDal;
         }
         [CacheRemoveAspect("Get")]
@@ -83,40 +86,56 @@ namespace Business.Concrete
             }
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        public IDataResult<CarDetailAndImagesDto> GetCarDetailAndImagesDto(int carId)
         {
-            List<Car> cars = _carDal.GetAll(p => p.BrandId == brandId);
-            if (cars == null)
+            var result = _carDal.GetCarDetail(carId);
+            var imageResult = _carImageService.GetAllByCarId(carId);
+            if (result == null || imageResult.Success == false)
             {
-                return new ErrorDataResult<List<Car>>(Messages.GetErrorCarMessage);
+                return new ErrorDataResult<CarDetailAndImagesDto>(Messages.GetErrorCarMessage);
             }
-            else
+
+            var carDetailAndImagesDto = new CarDetailAndImagesDto
             {
-                return new SuccessDataResult<List<Car>>(cars, Messages.GetErrorCarMessage);
-            }
+               Car=result,
+               CarImages=imageResult.Data
+            };
+
+            return new SuccessDataResult<CarDetailAndImagesDto>(carDetailAndImagesDto, Messages.GetSuccessCarMessage);
         }
 
-        public IDataResult<List<Car>> GetCarsByCarId(int brandId)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == brandId));
-        }
 
-        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
-        {
-            List<Car> cars = _carDal.GetAll(p => p.ColorId == colorId);
-            if (cars == null)
-            {
-                return new ErrorDataResult<List<Car>>(Messages.GetErrorCarMessage);
-            }
-            else
-            {
-                return new SuccessDataResult<List<Car>>(cars, Messages.GetErrorCarMessage);
-            }
-        }
+    
 
-        public IDataResult<List<CarDetailDto>> GetCarsDetail()
+    public IDataResult<List<CarDetailDto>> GetCarsDetail()
         {
             List<CarDetailDto> carDetails = _carDal.GetCarsDetail();
+            if (carDetails == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.GetErrorCarMessage);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.GetErrorCarMessage);
+            }
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailByBrandId(int brandId)
+        {
+            List<CarDetailDto> carDetails = _carDal.GetCarsDetail(p => p.BrandId == brandId);
+            if (carDetails == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.GetErrorCarMessage);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.GetErrorCarMessage);
+            }
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailByColorId(int colorId)
+        {
+            List<CarDetailDto> carDetails = _carDal.GetCarsDetail(p => p.ColorId == colorId);
             if (carDetails == null)
             {
                 return new ErrorDataResult<List<CarDetailDto>>(Messages.GetErrorCarMessage);

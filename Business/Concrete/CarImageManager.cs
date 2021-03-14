@@ -20,20 +20,17 @@ namespace Business.Concrete
     public class CarImageManager : ICarImageService
     {
         private readonly ICarImageDal _carImageDal;
-        private readonly ICarService _carService;
 
-        public CarImageManager(ICarImageDal carImageDal, ICarService carService)
+        public CarImageManager(ICarImageDal carImageDal)
         {
             _carImageDal = carImageDal;
-            _carService = carService;
         }
 
         [ValidationAspect(typeof(CarImagesOperationDtoValidator))]
         public IResult Add(CarImagesOperationDto carImagesOperationDto)
         {
             var result = BusinessRules.Run(
-                CheckCarImageCount(carImagesOperationDto.CarId),
-                CheckIfCarId(carImagesOperationDto.CarId));
+                CheckCarImageCount(carImagesOperationDto.CarId));
             if (result != null)
             {
                 return result;
@@ -76,8 +73,7 @@ namespace Business.Concrete
             {
                 var result = BusinessRules.Run(
                     CheckIfCarImagesId(carImagesOperationDto.Id),
-                    CheckCarImageCount(carImagesOperationDto.CarId),
-                    CheckIfCarId(carImagesOperationDto.CarId)
+                    CheckCarImageCount(carImagesOperationDto.CarId)
                 );
                 if (result != null)
                 {
@@ -98,11 +94,7 @@ namespace Business.Concrete
 
         public IDataResult<List<CarImage>> GetAllByCarId(int carId)
         {
-            var result = BusinessRules.Run(CheckIfCarId(carId));
-            if (result != null)
-            {
-                return (IDataResult<List<CarImage>>) result;
-            }
+           
 
             var getAllbyCarIdResult = _carImageDal.GetAll(p => p.CarID == carId);
             if (getAllbyCarIdResult.Count == 0)
@@ -142,16 +134,6 @@ namespace Business.Concrete
             }
 
             return new SuccessResult();
-        }
-
-        private IResult CheckIfCarId(int carId)
-        {
-            if (!_carService.Get(carId).Success)
-            {
-                return new ErrorDataResult<List<CarImage>>(Messages.GetErrorCarMessage);
-            }
-
-            return new SuccessDataResult<List<CarImage>>();
         }
 
         #endregion Car Image Business Rules

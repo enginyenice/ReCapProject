@@ -3,6 +3,7 @@ enginyenice2626@gmail.com*/
 
 using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.Dtos;
 using Entities.DTOs;
 using System.Collections.Generic;
 
@@ -21,11 +22,9 @@ namespace Business.Abstract
         IResult Update(Car entity);
 
         IResult Delete(Car entity);
-
-        IDataResult<List<Car>> GetCarsByCarId(int brandId);
-
-        IDataResult<List<Car>> GetCarsByColorId(int colorId);
-
         IDataResult<List<CarDetailDto>> GetCarsDetail();
+        IDataResult<List<CarDetailDto>> GetCarsDetailByBrandId(int brandId);
+        IDataResult<List<CarDetailDto>> GetCarsDetailByColorId(int colorId);
+        IDataResult<CarDetailAndImagesDto> GetCarDetailAndImagesDto(int carId);
     }
 }
