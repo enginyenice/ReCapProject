@@ -1,4 +1,4 @@
-## 11.03.2021 Ödev 1
+## 11.03.2021  Ödev 1.
 RentACar projeniz için:
 
 Angular projesi oluşturunuz
