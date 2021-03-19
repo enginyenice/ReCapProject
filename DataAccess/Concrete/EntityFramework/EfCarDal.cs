@@ -31,8 +31,10 @@ namespace DataAccess.Concrete.EntityFramework
                                  DailyPrice = p.DailyPrice,
                                  Description = p.Description,
                                  ModelYear = p.ModelYear,
-                                 CarId = p.Id
+                                 CarId = p.Id,
+                                 Status = !context.Rentals.Any(p => p.CarId == carId && p.ReturnDate == null)
                              };
+
                 return result.SingleOrDefault();
             }
         }

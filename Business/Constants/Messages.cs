@@ -78,5 +78,9 @@ namespace Business.Constants
         public static string SuccessfulLogin = "Başarılı giriş";
         public static string UserAvailable = "Kullanıcı mevcut";
         public static string TokenCreated = "Token oluşturuldu.";
+
+        public static string InsufficientBalance = "Yetersiz bakiye";
+
+        public static string PaymentCompleted = "Ödeme yapıldı";
     }
 }

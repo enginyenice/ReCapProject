@@ -2,7 +2,9 @@
 enginyenice2626@gmail.com*/
 
 using Business.Abstract;
+using Core.Aspects.Autofac.Transaction;
 using Entities.Concrete;
+using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -12,10 +14,12 @@ namespace WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         private readonly IRentalService _rentalService;
+        private readonly IPaymentService _paymentService;
 
-        public RentalsController(IRentalService rentalService)
+        public RentalsController(IRentalService rentalService, IPaymentService paymentService)
         {
             _rentalService = rentalService;
+            _paymentService = paymentService;
         }
 
         [HttpGet("getbyid")]
@@ -80,6 +84,28 @@ namespace WebAPI.Controllers
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);
+        }
+
+
+        //Test amaçlı
+        [HttpPost("paymentadd")]
+        [TransactionAspect]
+        public ActionResult PaymentAdd(RentalPaymentDto rentalPaymentDto)
+        {
+            var paymentResult = _paymentService.ReceivePayment(rentalPaymentDto.Payment);
+            if (!paymentResult.Success)
+            {
+                return BadRequest(paymentResult);
+            }
+            var result = _rentalService.Add(rentalPaymentDto.Rental);
+
+            if (result.Success)
+                return Ok(result);
+            else
+            {
+                throw new System.Exception(result.Message);
+                //return BadRequest(result);                    
+            }
         }
     }
 }
