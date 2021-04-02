@@ -1,3 +1,27 @@
+## 17.03.2021 Ödev 3
+
+RentACar projenizde,
+
+Car, Brand, Color için pipe ile arama desteği ekleyiniz.
+
+Car sayfasına 2 adet açılır kutu ekleyiniz. Html-Select Option. Bu açılır kutularda sırasıyla Marka ve Renk listeleyiniz.
+
+Açılır kutuların yanına "Filtrele" butonu ekleyiniz.
+
+Filtrele butonuna tıklandığında apiden ilgili filtreye uygun arabaları listeleyiniz.
+
+Araba detay sayfasında "Kirala" butonu ekleyiniz. Bu aracı kiralayabilecek sistemi yazınız. Araba hali hazırda başkası tarafından seçilen tarih aralığında kiralanmışsa, kiralama işlemi yapmayınız.
+
+Kiralama işleminde tarihler seçildikten sonra, yeni bir sayfada kredi kartıyla ödeme desteği getiriniz.
+
+Ödeme işlemi için api'de sahte bir banka servisi yazınız.
+
+Tüm işlemler için Toastr desteği ekleyiniz.
+
+Github adresinizi ekleyiniz.
+
+Size güveniyorum. Yapacaksınız.
+
 ## 11.03.2021  Ödev 1.
 RentACar projeniz için:
 
