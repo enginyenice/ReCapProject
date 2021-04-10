@@ -80,7 +80,10 @@ namespace Business.Constants
         public static string TokenCreated = "Token oluşturuldu.";
 
         public static string InsufficientBalance = "Yetersiz bakiye";
-
         public static string PaymentCompleted = "Ödeme yapıldı";
+        public static string FindeksCalculateCompleted = "Findeks puanı hesaplandı.";
+
+        public static string FindeksPointsInsufficient = "Findeks puanı yetersiz";
+        public static string FindeksPointsSufficient = "Findeks puanı yeterli";
     }
 }

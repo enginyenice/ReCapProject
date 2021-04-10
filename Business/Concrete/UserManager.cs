@@ -8,6 +8,7 @@ using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -73,10 +74,24 @@ namespace Business.Concrete
             }
         }
 
+        public IDataResult<UserBasicDto> GetByEmailDto(string email)
+        {
+            User user = _userDal.Get(p => p.Email.ToLower() == email.ToLower());
+            if (user == null)
+            {
+                return new ErrorDataResult<UserBasicDto>(Messages.GetErrorUserMessage);
+            }
+            else
+            {
+                return new SuccessDataResult<UserBasicDto>(new UserBasicDto {Id=user.Id, Email = user.Email,FirstName = user.FirstName, LastName =user.LastName }, Messages.GetSuccessUserMessage);
+            }
+        }
+
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
+
 
         [ValidationAspect(typeof(UserValidator))]
         public IResult Update(User entity)
@@ -84,5 +99,7 @@ namespace Business.Concrete
             _userDal.Update(entity);
             return new SuccessResult(Messages.EditUserMessage);
         }
+
+
     }
 }

@@ -27,6 +27,24 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("getbyemaildto")]
+        public ActionResult GetByEmailDto(User user)
+        {
+            var result = _userService.GetByEmailDto(user.Email);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpPost("getbyemail")]
+        public ActionResult GetByEmail(User user)
+        {
+            var result = _userService.GetByEmail(user.Email);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public ActionResult GetAll()
         {
@@ -40,6 +58,14 @@ namespace WebAPI.Controllers
         public ActionResult Add(User user)
         {
             var result = _userService.Add(user);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpPost("update")]
+        public ActionResult Update(User user)
+        {
+            var result = _userService.Update(user);
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);

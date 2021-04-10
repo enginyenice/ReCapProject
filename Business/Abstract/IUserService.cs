@@ -3,6 +3,7 @@ enginyenice2626@gmail.com*/
 
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
+using Entities.Dtos;
 using System.Collections.Generic;
 
 namespace Business.Abstract
@@ -22,5 +23,6 @@ namespace Business.Abstract
         IResult Delete(User entity);
 
         IDataResult<User> GetByEmail(string email);
+        IDataResult<UserBasicDto> GetByEmailDto(string email);
     }
 }
