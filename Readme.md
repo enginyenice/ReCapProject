@@ -1,3 +1,51 @@
+## 24.03.2021 Ödev 2
+
+Angular'da custom directive ve custom form control yapılarını araştırınız.
+
+RentACar projeniz için bunları kullanınız.
+
+## 24.03.2021 Ödev 1
+
+RentACar projenizde;
+
+Login/Register yetenekleri getiriniz.
+
+Kiralama esnasında müşterinin findeks puanını sorgulayacak sahte servis ekleyiniz.
+
+Findeks puan aralığı 0-1900 arasındadır.
+
+Araçların kiralanabilmesi için her aracın ayrı ayrı minimum findeks puanı olmalıdır. Bu puanı olmayan müşteriler araç kiralayamaz.
+
+LocalStorage için servis yazınız. Ekleme/Getirme/Silme
+
+Giriş ve register için nav'a butonlar ekleyiniz.
+
+Eğer giriş yapılmamışsa nav'da bu butonlar olsun. Giriş yapılmışsa bu butonlar yerine müşteri adı ex: "Engin Demiroğ" yazsın.
+
+Kullanıcı adını yazdığınız kısım açılır kutu olmalı.
+
+Kullanıcı bilgilerini görüp güncelleyebilmelidir.
+
+Kredi kartıyla ödeme alındığında kullanıcıya kredi kartını kaydedelim mi? Sorusu yöneltiniz. Kaydetmek isteyen müşteriye sonraki ödemede kayıtlı kredi kartını gösteriniz.
+
+Readme dosyanızı güçlendiriniz.
+
+Github linkini paylaşınız.
+
+## 20.03.2021 Ödev 1
+
+RentACar Projenizde;
+
+Backend Custom Error Middleware ekleyip fluent validation için refactoring yapınız.
+
+Reactive Forms kullanarak Brand, Color, Car Ekleme sayfalarını oluşturunuz.
+
+Brand,Color,Car listesinde güncelleme butonu ekleyiniz. Tıklanan ilgili elemanın detay sayfasına yönlendirerek güncelleme imkanı veriniz.
+
+Toast desteği veriniz.
+
+Projenize ait github sayfanızı paylaşınız.
+
 ## 17.03.2021 Ödev 3
 
 RentACar projenizde,
